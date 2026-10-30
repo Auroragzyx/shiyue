@@ -1186,6 +1186,13 @@
         } catch(err) {
           console.log('Native widget bridge sync', err);
         }
+      } else {
+        console.log('%c[DevTools Preview] 桌面小组件数据同步模拟:', 'color: #7C4DFF; font-weight: bold;', {
+          title: pinnedEvent.title,
+          days: calc.absDays,
+          label: calc.label,
+          category: pinnedEvent.category
+        });
       }
 
       // Linear Progress Indicator

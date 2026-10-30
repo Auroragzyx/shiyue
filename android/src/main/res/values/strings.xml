@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">时约</string>
-    <string name="widget_desc">时约极简纪念日与倒数日桌面卡片</string>
+    <string name="app_slogan">守候每一个值得铭记的时刻</string>
+    <string name="new_event">添加纪念</string>
+    <string name="days_since">DAYS SINCE</string>
+    <string name="days_left">DAYS LEFT</string>
+    <string name="pinned_focus">⭐ 置顶焦点</string>
+    <string name="widget_desc">时约桌面小组件 - 极简倒数日与纪念日卡片</string>
 </resources>

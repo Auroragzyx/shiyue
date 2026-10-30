@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TIMELINE DETAIL"
+                    android:textColor="@color/m3_text_secondary_dark"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我们在一起"
+                    android:textColor="@color/m3_text_primary_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/btn_detail_close"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="✕"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Giant Days Box -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/input_bg"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_detail_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="520"
+                android:textColor="@color/m3_primary_dark"
+                android:textSize="64sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/tv_detail_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="DAYS SINCE · 已走过"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_detail_lunar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="农历五月初二"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Milestone Box -->
+        <LinearLayout
+            android:id="@+id/box_detail_milestone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:background="@drawable/input_bg"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NEXT MILESTONE // 下一个重要里程碑"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_detail_milestone_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="🎯 1000 天整纪念日 · 还有 480 天"
+                android:textColor="@color/m3_text_primary_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Meta Grid -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:background="@drawable/input_bg"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_detail_category_repeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分类: 纪念日  |  周期: 每年重复"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_detail_target_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="目标日期: 2026.05.28"
+                android:textColor="@color/m3_text_primary_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Notes -->
+        <LinearLayout
+            android:id="@+id/box_detail_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:background="@drawable/input_bg"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="誓言与约定备注"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_detail_notes_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="在海边看日落许下的约定，愿岁岁年年。"
+                android:textColor="@color/m3_text_primary_dark"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Function Buttons: Calendar & Poster -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/btn_detail_calendar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="🗓️ 写入系统日历"
+                android:textColor="@color/m3_text_primary_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/btn_detail_poster"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:background="@drawable/btn_primary"
+                android:text="🖼️ 生成精美海报"
+                android:textColor="@color/m3_on_primary_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Actions: Pin, Edit, Delete -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/btn_detail_pin"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="⭐ 置顶焦点"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="11sp" />
+            <TextView
+                android:id="@+id/btn_detail_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="编辑"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="11sp" />
+            <TextView
+                android:id="@+id/btn_detail_delete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="删除"
+                android:textColor="#FF8A80"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

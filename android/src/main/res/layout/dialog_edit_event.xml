@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_dialog_sub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ENTRY FORM"
+                    android:textColor="@color/m3_text_secondary_dark"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_dialog_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加新纪念日"
+                    android:textColor="@color/m3_text_primary_dark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/btn_dialog_close"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="✕"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Event Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="事件名称 *"
+            android:textColor="@color/m3_text_secondary_dark"
+            android:textSize="11sp" />
+        <EditText
+            android:id="@+id/et_form_title"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_bg"
+            android:hint="如：相恋纪念日、考研初试、妈妈生日"
+            android:textColor="@color/m3_text_primary_dark"
+            android:textColorHint="@color/m3_text_secondary_dark"
+            android:textSize="13sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:singleLine="true" />
+
+        <!-- Calendar Type Segment -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="历法选择"
+            android:textColor="@color/m3_text_secondary_dark"
+            android:textSize="11sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_bg"
+            android:orientation="horizontal"
+            android:padding="2dp">
+            <TextView
+                android:id="@+id/btn_seg_solar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/chip_selected"
+                android:text="☀️ 公历 (阳历)"
+                android:textColor="@color/m3_on_primary_dark"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/btn_seg_lunar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="🌙 农历 (阴历)"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Solar Date Picker Box -->
+        <LinearLayout
+            android:id="@+id/box_solar_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/btn_pick_date"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/input_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="点击选择公历日期: 2026-10-30"
+                android:textColor="@color/m3_text_primary_dark"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Lunar Date Picker Box -->
+        <LinearLayout
+            android:id="@+id/box_lunar_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <Spinner
+                android:id="@+id/spinner_lunar_month"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:background="@drawable/input_bg" />
+            <Spinner
+                android:id="@+id/spinner_lunar_day"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/input_bg" />
+        </LinearLayout>
+
+        <!-- Mode & Category -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="计算模式"
+                    android:textColor="@color/m3_text_secondary_dark"
+                    android:textSize="11sp" />
+                <Spinner
+                    android:id="@+id/spinner_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/input_bg" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分类类别"
+                    android:textColor="@color/m3_text_secondary_dark"
+                    android:textSize="11sp" />
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/input_bg" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Repeat Cycle -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="重复周期"
+            android:textColor="@color/m3_text_secondary_dark"
+            android:textSize="11sp" />
+        <Spinner
+            android:id="@+id/spinner_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_bg" />
+
+        <!-- Pin to Hero Switch -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:background="@drawable/input_bg"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="置顶到主看板"
+                    android:textColor="@color/m3_text_primary_dark"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作为顶部巨型数字卡片，并自动同步到桌面小组件"
+                    android:textColor="@color/m3_text_secondary_dark"
+                    android:textSize="10sp" />
+            </LinearLayout>
+            <Switch
+                android:id="@+id/switch_pinned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Notes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="誓言与备注 (可选)"
+            android:textColor="@color/m3_text_secondary_dark"
+            android:textSize="11sp" />
+        <EditText
+            android:id="@+id/et_form_notes"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/input_bg"
+            android:hint="记录一些细节、约定或誓言..."
+            android:textColor="@color/m3_text_primary_dark"
+            android:textColorHint="@color/m3_text_secondary_dark"
+            android:textSize="12sp"
+            android:gravity="top|start"
+            android:padding="10dp" />
+
+        <!-- Scrapbook Photo Box -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="📸 纪念相片与遮脸贴纸"
+            android:textColor="@color/m3_text_secondary_dark"
+            android:textSize="11sp" />
+        <LinearLayout
+            android:id="@+id/btn_choose_photo"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:background="@drawable/btn_secondary"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_photo_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 选择现场相片 (支持贴纸遮脸)"
+                android:textColor="@color/m3_primary_dark"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/btn_form_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/btn_secondary"
+                android:text="取消"
+                android:textColor="@color/m3_text_secondary_dark"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/btn_form_save"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:background="@drawable/btn_primary"
+                android:text="保存记录"
+                android:textColor="@color/m3_on_primary_dark"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
