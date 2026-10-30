@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>时约 // 瑞士极简纪念日</title>
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="manifest" href="./manifest.json">
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+    :root {
+      --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'Space+Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-feature-settings: "tnum" on, "cv02" on, "cv03" on, "cv04" on;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .font-mono-swiss {
+      font-family: var(--font-mono);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(128, 128, 128, 0.3);
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Touch control canvas */
+    .touch-none {
+      touch-action: none;
+    }
+  </style>
+</head>
+<body class="bg-[#121212] text-[#F4F4F4] transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-white selection:text-black">
+
+  <!-- Mobile App Frame Container -->
+  <div class="w-full max-w-lg mx-auto flex-1 flex flex-col px-4 pt-4 pb-8 sm:px-6">
+
+    <!-- Top Status Bar & Header -->
+    <header class="border-b-2 border-white pb-3 pt-1 transition-colors duration-200" id="header-border">
+      <div class="flex items-center justify-between text-xs font-mono-swiss tracking-widest uppercase opacity-70 mb-1">
+        <span id="live-date">2026.10.30 // FRI</span>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button onclick="toggleTheme()" class="hover:opacity-100 transition-opacity font-mono text-xs uppercase" title="切换暗黑/浅色模式">
+            <span id="theme-btn-text">[DARK]</span>
+          </button>
+          <button onclick="openCategoryManager()" class="hover:opacity-100 transition-opacity font-mono text-xs uppercase" title="分类管理">
+            [分类]
+          </button>
+          <button onclick="openBackupModal()" class="hover:opacity-100 transition-opacity font-mono text-xs uppercase" title="数据备份与恢复">
+            [DATA]
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-end justify-between mt-2">
+        <div>
+          <span class="text-[11px] font-mono-swiss tracking-[0.2em] uppercase opacity-50 block" id="header-lunar">农历计算 // 极简纪念</span>
+          <h1 class="text-3xl font-black tracking-tighter uppercase leading-none mt-0.5">时约 // TIMELINE</h1>
+        </div>
+        
+        <button onclick="openAddModal()" class="px-3.5 py-2 bg-white text-black text-xs font-mono-swiss font-bold tracking-wider uppercase hover:bg-neutral-200 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm" id="new-btn">
+          <span>+</span>
+          <span>NEW ENTRY</span>
+        </button>
+      </div>
+
+      <!-- Quick Filter Bar -->
+      <div class="flex items-center gap-2 overflow-x-auto pt-3 text-xs font-mono-swiss no-scrollbar" id="category-tabs">
+        <!-- Rendered by JS -->
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 space-y-5 pt-4">
+
+      <!-- Pinned Hero Card -->
+      <section id="hero-section" class="relative group cursor-pointer border-b border-neutral-700 pb-5 transition-all">
+        <!-- Injected by renderHero() -->
+      </section>
+
+      <!-- Search & Count Bar -->
+      <div class="flex items-center justify-between text-xs font-mono-swiss pt-1 text-neutral-400">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-white rounded-none" id="status-dot"></span>
+          <span id="event-count-label">04 RECORDS</span>
+        </div>
+        <div class="relative">
+          <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="SEARCH // 查找..." class="bg-transparent border-b border-neutral-700 text-xs font-mono-swiss px-1 py-0.5 focus:outline-none focus:border-white transition-colors w-32 placeholder:text-neutral-600">
+        </div>
+      </div>
+
+      <!-- Event List (Swiss High Contrast Divided List) -->
+      <section id="event-list" class="divide-y divide-neutral-800 transition-colors">
+        <!-- Injected by renderList() -->
+      </section>
+
+    </main>
+
+    <!-- Minimalist Footer -->
+    <footer class="pt-6 border-t border-neutral-800 text-[11px] font-mono-swiss text-neutral-500 flex justify-between items-center mt-6">
+      <span>时约 // SWISS MINIMAL</span>
+      <span>OFFLINE & PRIVACY SAFE</span>
+    </footer>
+
+  </div>
+
+  <!-- ==================== MODAL: ADD / EDIT RECORD ==================== -->
+  <div id="edit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-[#121212] text-white border-t sm:border border-white w-full max-w-lg p-6 max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl transition-all" id="modal-container">
+      
+      <div class="flex justify-between items-start border-b-2 border-white pb-3">
+        <div>
+          <span class="text-[10px] font-mono-swiss tracking-widest uppercase opacity-60" id="modal-subheading">ENTRY FORM</span>
+          <h2 class="text-xl font-black tracking-tight uppercase mt-0.5" id="modal-title">NEW RECORD</h2>
+        </div>
+        <button onclick="closeModal()" class="font-mono text-sm px-2 py-1 hover:bg-neutral-800 border border-neutral-700 uppercase">
+          ESC
+        </button>
+      </div>
+
+      <form id="event-form" onsubmit="saveEvent(event)" class="space-y-4 text-xs font-mono-swiss">
+        <input type="hidden" id="form-id">
+
+        <!-- Title -->
+        <div class="space-y-1">
+          <label class="block uppercase tracking-wider text-neutral-400">事件名称 / EVENT NAME *</label>
+          <input type="text" id="form-title" required placeholder="如：相恋纪念日、考研初试、妈妈生日" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-sm text-white focus:outline-none focus:border-white transition-colors">
+        </div>
+
+        <!-- Date Type: Solar vs Lunar -->
+        <div class="space-y-1">
+          <div class="flex justify-between items-center">
+            <label class="block uppercase tracking-wider text-neutral-400">日期类型 / CALENDAR TYPE</label>
+            <div class="flex gap-2">
+              <button type="button" onclick="setCalendarType('solar')" id="btn-type-solar" class="px-2 py-0.5 border border-white text-white font-bold text-[11px]">公历 (SOLAR)</button>
+              <button type="button" onclick="setCalendarType('lunar')" id="btn-type-lunar" class="px-2 py-0.5 border border-neutral-700 text-neutral-400 text-[11px]">农历 (LUNAR)</button>
+            </div>
+          </div>
+
+          <!-- Solar Date Input -->
+          <div id="solar-input-box" class="space-y-1">
+            <div class="flex justify-between items-center text-[10px] text-neutral-500">
+              <span>选择公历年月日</span>
+              <button type="button" onclick="setFormDateToday()" class="hover:text-white underline">SET TODAY</button>
+            </div>
+            <input type="date" id="form-date" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-sm text-white focus:outline-none focus:border-white transition-colors">
+          </div>
+
+          <!-- Lunar Date Input -->
+          <div id="lunar-input-box" class="space-y-2 hidden p-3 border border-neutral-800 bg-neutral-900/50">
+            <div class="text-[10px] text-neutral-400">选择中国农历月日（每年自动推算下一个公历对应日）：</div>
+            <div class="grid grid-cols-2 gap-2">
+              <select id="form-lunar-month" class="w-full bg-neutral-900 border border-neutral-700 p-2 text-xs text-white">
+                <option value="1">正月 (一月)</option>
+                <option value="2">二月</option>
+                <option value="3">三月</option>
+                <option value="4">四月</option>
+                <option value="5">五月</option>
+                <option value="6">六月</option>
+                <option value="7">七月</option>
+                <option value="8">八月</option>
+                <option value="9">九月</option>
+                <option value="10">十月</option>
+                <option value="11">冬月 (十一月)</option>
+                <option value="12">腊月 (十二月)</option>
+              </select>
+              <select id="form-lunar-day" class="w-full bg-neutral-900 border border-neutral-700 p-2 text-xs text-white">
+                <!-- 1 to 30 injected by JS -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode & Category -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="block uppercase tracking-wider text-neutral-400">计算模式 / MODE</label>
+            <select id="form-mode" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-xs text-white focus:outline-none focus:border-white">
+              <option value="auto">AUTO (自动判断)</option>
+              <option value="since">正数 (已过去天数)</option>
+              <option value="left">倒数 (距离还有天数)</option>
+            </select>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between">
+              <label class="block uppercase tracking-wider text-neutral-400">分类 / CATEGORY</label>
+              <button type="button" onclick="openCategoryManager()" class="text-[10px] text-neutral-400 hover:text-white underline">+ 管理</button>
+            </div>
+            <select id="form-category" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-xs text-white focus:outline-none focus:border-white">
+              <!-- Dynamically populated from categories -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Repeat Rule -->
+        <div class="space-y-1">
+          <label class="block uppercase tracking-wider text-neutral-400">重复周期 / REPEAT CYCLE</label>
+          <select id="form-repeat" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-xs text-white focus:outline-none focus:border-white">
+            <option value="none">不重复 (ONE TIME)</option>
+            <option value="yearly">每年重复 (YEARLY - 生日/周年纪念)</option>
+            <option value="monthly">每月重复 (MONTHLY - 发薪/还款)</option>
+            <option value="weekly">每周重复 (WEEKLY)</option>
+          </select>
+        </div>
+
+        <!-- Pin to Top Toggle -->
+        <div class="flex items-center justify-between p-3 border border-neutral-800 bg-neutral-900/50">
+          <div>
+            <div class="font-bold uppercase tracking-wider">置顶到主看板 / PIN TO HERO</div>
+            <div class="text-[10px] text-neutral-400 mt-0.5">作为顶部巨型数字焦点卡片展示</div>
+          </div>
+          <input type="checkbox" id="form-pinned" class="w-4 h-4 accent-white rounded-none cursor-pointer">
+        </div>
+
+        <!-- Notes -->
+        <div class="space-y-1">
+          <label class="block uppercase tracking-wider text-neutral-400">备注说明 / NOTES (可选)</label>
+          <textarea id="form-notes" rows="2" placeholder="记录一些细节、约定或誓言..." class="w-full bg-neutral-900 border border-neutral-700 p-2 text-xs text-white focus:outline-none focus:border-white transition-colors"></textarea>
+        </div>
+
+        <!-- ================= 纪念卡册 (Memory Scrapbook - Max 3 Photos) ================= -->
+        <div class="border-t border-neutral-800 pt-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="font-bold uppercase tracking-wider flex items-center gap-1.5 text-sm">
+                <span>📸 纪念卡册</span>
+                <span class="text-[10px] text-neutral-400">(上限3张照片)</span>
+              </span>
+              <p class="text-[10px] text-neutral-400 mt-0.5">记录那一天的现场照片，支持贴纸遮脸与心情备注</p>
+            </div>
+            
+            <!-- Quality Choice -->
+            <div class="flex items-center gap-1 text-[10px]">
+              <label class="flex items-center gap-1 cursor-pointer text-neutral-400 hover:text-white">
+                <input type="radio" name="photo-quality" value="compressed" checked class="accent-white">
+                <span>压缩标清 (推荐)</span>
+              </label>
+              <label class="flex items-center gap-1 cursor-pointer text-neutral-400 hover:text-white ml-2">
+                <input type="radio" name="photo-quality" value="hd" class="accent-white">
+                <span>原图高清</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Photo Container Cards -->
+          <div id="scrapbook-container" class="space-y-3">
+            <!-- Injected by renderScrapbookForm() -->
+          </div>
+
+          <!-- Add Photo Button -->
+          <div id="add-photo-btn-box">
+            <label class="w-full py-2.5 border border-dashed border-neutral-700 hover:border-white text-neutral-400 hover:text-white font-mono text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors bg-neutral-900/30">
+              <span>+ 添加照片 (最多3张)</span>
+              <input type="file" id="photo-file-input" accept="image/*" onchange="handlePhotoUpload(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-3 pt-3 border-t border-neutral-800">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 border border-neutral-700 text-neutral-300 font-bold tracking-wider uppercase hover:bg-neutral-800 transition-colors">
+            CANCEL
+          </button>
+          <button type="submit" class="flex-1 py-3 bg-white text-black font-bold tracking-wider uppercase hover:bg-neutral-200 transition-colors">
+            SAVE RECORD
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: STICKER / FACE-COVERING P图编辑器 ==================== -->
+  <div id="sticker-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-60 flex flex-col justify-between p-3 sm:p-6 hidden">
+    <div class="w-full max-w-xl mx-auto flex-1 flex flex-col justify-between space-y-3">
+      
+      <!-- Top Bar -->
+      <div class="flex justify-between items-center border-b border-neutral-700 pb-2 text-white">
+        <div>
+          <span class="text-[10px] font-mono-swiss tracking-widest uppercase text-neutral-400">PHOTO STICKER STUDIO</span>
+          <h3 class="text-base font-bold">表情贴纸 / 遮脸神器</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="closeStickerModal()" class="px-3 py-1 border border-neutral-700 text-xs font-mono uppercase hover:bg-neutral-800">
+            取消
+          </button>
+          <button onclick="saveStickerResult()" class="px-3.5 py-1 bg-white text-black text-xs font-mono font-bold uppercase hover:bg-neutral-200">
+            保存应用
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas Area -->
+      <div class="flex-1 flex items-center justify-center overflow-hidden bg-neutral-950 border border-neutral-800 relative rounded-lg p-2" id="canvas-wrapper">
+        <canvas id="sticker-canvas" class="max-h-[60vh] max-w-full touch-none shadow-lg cursor-crosshair"></canvas>
+      </div>
+
+      <!-- Controls & Sliders -->
+      <div class="space-y-2 bg-[#181818] p-3 rounded-lg border border-neutral-800 text-white text-xs font-mono-swiss">
+        <!-- Scale & Action Row -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 flex-1">
+            <span class="text-[10px] text-neutral-400 uppercase whitespace-nowrap">贴纸大小:</span>
+            <input type="range" id="sticker-size-slider" min="0.3" max="2.5" step="0.05" value="1.0" oninput="updateActiveStickerSize(this.value)" class="w-full accent-white">
+          </div>
+          <button onclick="deleteActiveSticker()" class="px-2.5 py-1 border border-red-800 text-red-400 text-[11px] hover:bg-red-950/40 uppercase">
+            删除贴纸
+          </button>
+          <button onclick="clearAllStickers()" class="px-2.5 py-1 border border-neutral-700 text-neutral-400 text-[11px] hover:bg-neutral-800 uppercase">
+            清空
+          </button>
+        </div>
+
+        <p class="text-[10px] text-neutral-400">💡 提示：点击下方贴纸添加到照片上，按住可拖动移动位置或遮住人脸</p>
+
+        <!-- Sticker Tray (20+ Fun & Mask Stickers) -->
+        <div class="flex gap-2 overflow-x-auto py-2 border-t border-neutral-800 text-2xl no-scrollbar select-none" id="sticker-tray">
+          <!-- Injected by JS: 🕶️ 😷 🐱 🐶 🐻 🐼 🐰 🦊 👑 🎀 🌸 💖 🌟 🎩 🥸 🍓 🌈 🎈 🎭 🔥 🥑 -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: DETAIL & MEMORY ALBUM ==================== -->
+  <div id="detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-[#121212] text-white border-t sm:border border-white w-full max-w-lg p-6 max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl transition-all" id="detail-container">
+      <div id="detail-content">
+        <!-- Injected by openDetailModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: SHARE POSTER GENERATOR ==================== -->
+  <div id="poster-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-60 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#121212] text-white border border-white w-full max-w-sm p-5 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+        <h3 class="text-sm font-bold font-mono-swiss uppercase">极简海报 // 朋友圈分享</h3>
+        <button onclick="closePosterModal()" class="font-mono text-xs px-2 py-0.5 border border-neutral-700">ESC</button>
+      </div>
+
+      <!-- Preview Canvas -->
+      <div class="flex justify-center bg-black p-2 border border-neutral-800">
+        <canvas id="poster-canvas" class="max-h-[60vh] max-w-full shadow-md"></canvas>
+      </div>
+
+      <div class="space-y-2 font-mono-swiss text-xs">
+        <button onclick="downloadPoster()" class="w-full py-2.5 bg-white text-black font-bold uppercase hover:bg-neutral-200 flex items-center justify-center gap-1.5">
+          <span>↓</span>
+          <span>保存海报到相册 (DOWNLOAD)</span>
+        </button>
+        <p class="text-[10px] text-neutral-400 text-center">手机上长按上方图片亦可直接保存或发送给朋友</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CATEGORY MANAGER ==================== -->
+  <div id="category-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#121212] text-white border border-white w-full max-w-md p-6 space-y-4 shadow-2xl" id="category-container">
+      <div class="flex justify-between items-center border-b-2 border-white pb-3">
+        <h3 class="text-base font-black font-mono-swiss tracking-tight uppercase">CATEGORY MANAGER // 分类管理</h3>
+        <button onclick="closeCategoryModal()" class="font-mono text-xs px-2 py-1 border border-neutral-700 uppercase">ESC</button>
+      </div>
+
+      <!-- Add New Category -->
+      <div class="flex gap-2 font-mono-swiss text-xs">
+        <input type="text" id="new-cat-input" placeholder="输入新分类名称 (如：旅行计划、宠物日常)" class="flex-1 bg-neutral-900 border border-neutral-700 p-2 text-white focus:outline-none focus:border-white">
+        <button onclick="addCustomCategory()" class="px-4 py-2 bg-white text-black font-bold uppercase hover:bg-neutral-200">
+          添加
+        </button>
+      </div>
+
+      <!-- Category List -->
+      <div class="space-y-1.5 max-h-60 overflow-y-auto pt-2" id="category-manage-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: DATA BACKUP & RESTORE ==================== -->
+  <div id="backup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#121212] text-white border border-white w-full max-w-md p-6 space-y-4 shadow-2xl" id="backup-container">
+      <div class="flex justify-between items-center border-b-2 border-white pb-3">
+        <h3 class="text-lg font-black font-mono-swiss tracking-tight uppercase">DATA ARCHIVE // 备份</h3>
+        <button onclick="closeBackupModal()" class="font-mono text-xs px-2 py-1 border border-neutral-700 uppercase">ESC</button>
+      </div>
+      
+      <p class="text-xs text-neutral-400 leading-relaxed font-mono-swiss">
+        你的所有数据完全保存在当前设备的本地存储中，不会上传到任何第三方服务器。你可以随时导出 JSON 备份文件，换手机或迁移时一键恢复。
+      </p>
+
+      <div class="space-y-2 pt-2 font-mono-swiss text-xs">
+        <button onclick="exportData()" class="w-full py-3 bg-white text-black font-bold tracking-wider uppercase hover:bg-neutral-200 flex items-center justify-center gap-2">
+          <span>↓</span>
+          <span>EXPORT BACKUP (导出 JSON 备份)</span>
+        </button>
+
+        <label class="w-full py-3 border border-neutral-700 text-neutral-300 font-bold tracking-wider uppercase hover:bg-neutral-800 flex items-center justify-center gap-2 cursor-pointer transition-colors">
+          <span>↑</span>
+          <span>IMPORT BACKUP (恢复已有备份)</span>
+          <input type="file" id="import-file" accept=".json" onchange="importData(event)" class="hidden">
+        </label>
+
+        <button onclick="resetDefaults()" class="w-full py-2.5 text-red-400 hover:text-red-300 text-center font-mono text-[11px] uppercase pt-2">
+          [RESET ALL DATA / 重置为初始示例]
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== APPLICATION CORE LOGIC ==================== -->
+  <script>
+    // 15+ Cute, Fun, and Face-Covering Stickers
+    const STICKER_LIST = [
+      { id: 'sunglasses', icon: '🕶️', label: '酷黑墨镜' },
+      { id: 'mask', icon: '😷', label: '纯白口罩' },
+      { id: 'cat', icon: '🐱', label: '软萌猫咪' },
+      { id: 'dog', icon: '🐶', label: '元气柴犬' },
+      { id: 'bear', icon: '🐻', label: '棕熊抱抱' },
+      { id: 'panda', icon: '🐼', label: '滚滚熊猫' },
+      { id: 'rabbit', icon: '🐰', label: '萌兔垂耳' },
+      { id: 'fox', icon: '🦊', label: '赤狐面具' },
+      { id: 'disguise', icon: '🥸', label: '搞怪胡子' },
+      { id: 'crown', icon: '👑', label: '璀璨王冠' },
+      { id: 'ribbon', icon: '🎀', label: '粉蝴蝶结' },
+      { id: 'flower', icon: '🌸', label: '浪漫樱花' },
+      { id: 'heart', icon: '💖', label: '怦然心动' },
+      { id: 'star', icon: '🌟', label: '闪耀星光' },
+      { id: 'hat', icon: '🎩', label: '魔术高帽' },
+      { id: 'strawberry', icon: '🍓', label: '甜蜜草莓' },
+      { id: 'rainbow', icon: '🌈', label: '晴空彩虹' },
+      { id: 'balloon', icon: '🎈', label: '彩色气球' },
+      { id: 'theater', icon: '🎭', label: '舞会假面' },
+      { id: 'fire', icon: '🔥', label: '热爱之火' }
+    ];
+
+    // Standard Chinese Lunar Calendar Algorithm (1900-2100)
+    const LUNAR_INFO = [
+      0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
+      0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
+      0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
+      0x06566,0x0d4a0,0x0ea50,0x06e95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
+      0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
+      0x06ca0,0x0b550,0x15355,0x04da0,0x0a5d0,0x14573,0x052d0,0x0a9a8,0x0e950,0x06aa0,
+      0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
+      0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b5a0,0x195a6,
+      0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
+      0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x055c0,0x0ab60,0x096d5,0x092e0,
+      0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
+      0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
+      0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
+      0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
+      0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0
+    ];
+
+    function getLunarYearDays(y) {
+      let sum = 348;
+      for (let i = 0x8000; i > 0x8; i >>= 1) {
+        sum += (LUNAR_INFO[y - 1900] & i) ? 1 : 0;
+      }
+      return sum + getLeapDays(y);
+    }
+
+    function getLeapDays(y) {
+      if (getLeapMonth(y)) {
+        return (LUNAR_INFO[y - 1900] & 0x10000) ? 30 : 29;
+      }
+      return 0;
+    }
+
+    function getLeapMonth(y) {
+      return LUNAR_INFO[y - 1900] & 0xf;
+    }
+
+    function getLunarMonthDays(y, m) {
+      return (LUNAR_INFO[y - 1900] & (0x10000 >> m)) ? 30 : 29;
+    }
+
+    // Convert Solar to Lunar
+    function solarToLunar(solarDate) {
+      let offset = (Date.UTC(solarDate.getFullYear(), solarDate.getMonth(), solarDate.getDate()) - Date.UTC(1900, 0, 31)) / 86400000;
+      let y = 1900;
+      for (; y < 2100 && offset > 0; y++) {
+        let temp = getLunarYearDays(y);
+        if (offset < temp) break;
+        offset -= temp;
+      }
+      let leap = getLeapMonth(y);
+      let isLeap = false;
+      let m = 1;
+      for (; m <= 12 && offset > 0; m++) {
+        if (leap > 0 && m === (leap + 1) && !isLeap) {
+          --m;
+          isLeap = true;
+          let temp = getLeapDays(y);
+          if (offset < temp) break;
+          offset -= temp;
+        } else {
+          let temp = getLunarMonthDays(y, m);
+          if (offset < temp) break;
+          offset -= temp;
+        }
+        if (isLeap && m === (leap + 1)) isLeap = false;
+      }
+      let d = offset + 1;
+      const lunarMonths = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊"];
+      const lunarDays = ["初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+        "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+        "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"];
+      return {
+        lunarYear: y,
+        lunarMonth: m,
+        lunarDay: d,
+        isLeap: isLeap,
+        monthStr: (isLeap ? "闰" : "") + lunarMonths[m - 1] + "月",
+        dayStr: lunarDays[d - 1],
+        str: `${(isLeap ? "闰" : "") + lunarMonths[m - 1]}月${lunarDays[d - 1]}`
+      };
+    }
+
+    // Convert Lunar date to Solar Date for a given solar year
+    function lunarToSolar(lunarYear, lunarMonth, lunarDay) {
+      let offset = 0;
+      for (let i = 1900; i < lunarYear; i++) {
+        offset += getLunarYearDays(i);
+      }
+      let leap = getLeapMonth(lunarYear);
+      for (let i = 1; i < lunarMonth; i++) {
+        offset += getLunarMonthDays(lunarYear, i);
+        if (leap > 0 && i === leap) {
+          offset += getLeapDays(lunarYear);
+        }
+      }
+      offset += (lunarDay - 1);
+      let base = new Date(1900, 0, 31);
+      base.setDate(base.getDate() + offset);
+      return base;
+    }
+
+    // Initial state
+    const DEFAULT_CATEGORIES = ['纪念日', '生日', '学业', '生活', '节日', '工作'];
+    let categories = [...DEFAULT_CATEGORIES];
+    let events = [];
+    let currentCategory = 'ALL';
+    let searchQuery = '';
+    let isDark = true;
+    let currentCalendarType = 'solar'; // 'solar' | 'lunar'
+
+    // Form scrapbook state (temporary photos while editing)
+    let formPhotos = [];
+
+    // Sticker editor state
+    let stickerActivePhotoIndex = -1;
+    let stickerBaseImage = null;
+    let stickerCanvas = null;
+    let stickerCtx = null;
+    let placedStickers = []; // { id, icon, x, y, size }
+    let activeStickerIndex = -1;
+    let isDraggingSticker = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+
+    // Load initial data
+    function initData() {
+      try {
+        const storedCats = localStorage.getItem('SHIYUE_CATEGORIES');
+        if (storedCats) {
+          categories = JSON.parse(storedCats);
+        }
+
+        const storedEvents = localStorage.getItem('SHIYUE_EVENTS_V2');
+        if (storedEvents) {
+          events = JSON.parse(storedEvents);
+        } else {
+          // Check v1
+          const v1 = localStorage.getItem('CHRONO_EVENTS_V1');
+          if (v1) {
+            events = JSON.parse(v1);
+          } else {
+            events = [
+              {
+                id: 'ev-1',
+                title: '我们在一起',
+                date: '2025-05-28',
+                category: '纪念日',
+                mode: 'since',
+                repeat: 'yearly',
+                calendarType: 'solar',
+                pinned: true,
+                notes: '在海边看日落许下的约定，愿岁岁年年。',
+                photos: []
+              },
+              {
+                id: 'ev-2',
+                title: '研究生入学考试 (初试)',
+                date: '2026-12-26',
+                category: '学业',
+                mode: 'left',
+                repeat: 'none',
+                calendarType: 'solar',
+                pinned: false,
+                notes: '沉潜蓄力，终将上岸！',
+                photos: []
+              },
+              {
+                id: 'ev-3',
+                title: '妈妈的生日 (农历)',
+                date: '2026-11-15',
+                category: '生日',
+                mode: 'left',
+                repeat: 'yearly',
+                calendarType: 'lunar',
+                lunarMonth: 10,
+                lunarDay: 6,
+                pinned: false,
+                notes: '十月初六，提前订好鲜花和生日礼物。',
+                photos: []
+              }
+            ];
+          }
+          saveToStorage();
+        }
+
+        const storedTheme = localStorage.getItem('SHIYUE_THEME');
+        isDark = storedTheme !== 'light';
+      } catch (e) {
+        console.error(e);
+      }
+
+      applyTheme();
+      initLunarDaysDropdown();
+      initStickerTray();
+      renderAll();
+      updateLiveDate();
+    }
+
+    function saveToStorage() {
+      localStorage.setItem('SHIYUE_EVENTS_V2', JSON.stringify(events));
+      localStorage.setItem('SHIYUE_CATEGORIES', JSON.stringify(categories));
+    }
+
+    function initLunarDaysDropdown() {
+      const daySelect = document.getElementById('form-lunar-day');
+      const lunarDays = ["初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+        "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+        "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"];
+      daySelect.innerHTML = lunarDays.map((d, idx) => `<option value="${idx + 1}">${d}</option>`).join('');
+    }
+
+    // Days calculation helper
+    function calculateDays(event) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let target;
+      let displayLunarStr = '';
+
+      if (event.calendarType === 'lunar' && event.lunarMonth && event.lunarDay) {
+        // Calculate solar target for current lunar year
+        let solarThisYear = lunarToSolar(today.getFullYear(), event.lunarMonth, event.lunarDay);
+        solarThisYear.setHours(0, 0, 0, 0);
+        if (solarThisYear < today && event.mode !== 'since') {
+          // Next year lunar date
+          target = lunarToSolar(today.getFullYear() + 1, event.lunarMonth, event.lunarDay);
+        } else {
+          target = solarThisYear;
+        }
+        displayLunarStr = `农历 ${event.lunarMonth}月${event.lunarDay}日`;
+      } else {
+        const parts = event.date.split('-');
+        target = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        target.setHours(0, 0, 0, 0);
+
+        if (event.repeat === 'yearly') {
+          let nextYearTarget = new Date(today.getFullYear(), target.getMonth(), target.getDate());
+          if (nextYearTarget < today && event.mode !== 'since') {
+            nextYearTarget.setFullYear(today.getFullYear() + 1);
+          }
+          if (event.mode !== 'since') target = nextYearTarget;
+        } else if (event.repeat === 'monthly') {
+          let nextMonthTarget = new Date(today.getFullYear(), today.getMonth(), target.getDate());
+          if (nextMonthTarget < today && event.mode !== 'since') {
+            nextMonthTarget.setMonth(today.getMonth() + 1);
+          }
+          if (event.mode !== 'since') target = nextMonthTarget;
+        }
+        const lunarObj = solarToLunar(target);
+        displayLunarStr = `农历 ${lunarObj.str}`;
+      }
+
+      const diffTime = target.getTime() - today.getTime();
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+      const absDays = Math.abs(diffDays);
+      const isSince = event.mode === 'since' || (event.mode === 'auto' && diffDays < 0);
+
+      return {
+        diffDays,
+        absDays,
+        isSince,
+        label: isSince ? 'DAYS SINCE' : 'DAYS LEFT',
+        subLabel: isSince ? '正数日 · 已过去' : '倒数日 · 距离还有',
+        targetDateStr: formatDateStr(target),
+        originalDateStr: event.date || `${event.lunarMonth}月${event.lunarDay}日`,
+        displayLunarStr
+      };
+    }
+
+    function formatDateStr(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const date = String(d.getDate()).padStart(2, '0');
+      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+      return `${y}.${m}.${date} // ${dayNames[d.getDay()]}`;
+    }
+
+    function updateLiveDate() {
+      const now = new Date();
+      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      const lunar = solarToLunar(now);
+      document.getElementById('live-date').textContent = `${y}.${m}.${d} // ${dayNames[now.getDay()]}`;
+      document.getElementById('header-lunar').textContent = `农历${lunar.str} // 时光印记`;
+    }
+
+    // Theme Switch
+    function toggleTheme() {
+      isDark = !isDark;
+      localStorage.setItem('SHIYUE_THEME', isDark ? 'dark' : 'light');
+      applyTheme();
+    }
+
+    function applyTheme() {
+      const html = document.documentElement;
+      const themeBtnText = document.getElementById('theme-btn-text');
+      const headerBorder = document.getElementById('header-border');
+      const newBtn = document.getElementById('new-btn');
+      const statusDot = document.getElementById('status-dot');
+
+      if (isDark) {
+        html.classList.add('dark');
+        document.body.className = "bg-[#121212] text-[#F4F4F4] transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-white selection:text-black";
+        themeBtnText.textContent = "[DARK]";
+        headerBorder.className = "border-b-2 border-white pb-3 pt-1 transition-colors duration-200";
+        newBtn.className = "px-3.5 py-2 bg-white text-black text-xs font-mono-swiss font-bold tracking-wider uppercase hover:bg-neutral-200 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm";
+        statusDot.className = "w-1.5 h-1.5 bg-white rounded-none";
+      } else {
+        html.classList.remove('dark');
+        document.body.className = "bg-[#F7F7F7] text-[#121212] transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-black selection:text-white";
+        themeBtnText.textContent = "[LIGHT]";
+        headerBorder.className = "border-b-2 border-black pb-3 pt-1 transition-colors duration-200";
+        newBtn.className = "px-3.5 py-2 bg-black text-white text-xs font-mono-swiss font-bold tracking-wider uppercase hover:bg-neutral-800 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm";
+        statusDot.className = "w-1.5 h-1.5 bg-black rounded-none";
+      }
+      renderTabs();
+      renderHero();
+      renderList();
+    }
+
+    // Category Tabs
+    function renderTabs() {
+      const container = document.getElementById('category-tabs');
+      const cats = ['ALL', ...categories];
+      const activeClass = isDark ? 'border-b-2 border-white text-white font-bold' : 'border-b-2 border-black text-black font-bold';
+      const inactiveClass = isDark ? 'text-neutral-500 hover:text-neutral-300' : 'text-neutral-500 hover:text-black';
+
+      container.innerHTML = cats.map(cat => {
+        const isActive = currentCategory === cat;
+        return `
+          <button onclick="setCategory('${cat}')" class="pb-1 transition-colors tracking-wider whitespace-nowrap ${isActive ? activeClass : inactiveClass}">
+            [${cat}]
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      renderTabs();
+      renderList();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val.trim().toLowerCase();
+      renderList();
+    }
+
+    // Render Pinned Hero Card
+    function renderHero() {
+      const hero = document.getElementById('hero-section');
+      const pinnedEvent = events.find(e => e.pinned) || events[0];
+
+      if (!pinnedEvent) {
+        hero.innerHTML = `
+          <div class="py-8 text-center text-xs font-mono-swiss text-neutral-500 border border-dashed border-neutral-800 p-6">
+            NO PINNED RECORD // 点击 "+ NEW ENTRY" 创建你的第一个专属纪念日
+          </div>
+        `;
+        return;
+      }
+
+      const calc = calculateDays(pinnedEvent);
+      const isHeroDark = isDark;
+      const borderColor = isHeroDark ? 'border-neutral-800 group-hover:border-neutral-500' : 'border-neutral-300 group-hover:border-black';
+      const subColor = isHeroDark ? 'text-neutral-400' : 'text-neutral-600';
+      const photosCount = pinnedEvent.photos ? pinnedEvent.photos.length : 0;
+
+      // Sync data to native Android Desktop Widget
+      if (window.ShiYueNative && window.ShiYueNative.updateWidget) {
+        try {
+          window.ShiYueNative.updateWidget(
+            pinnedEvent.title,
+            String(calc.absDays),
+            calc.label,
+            `时约 // ${pinnedEvent.category}`,
+            `${calc.subLabel} · ${calc.targetDateStr}`
+          );
+        } catch(err) {
+          console.log('Native widget bridge sync', err);
+        }
+      }
+
+      // Progress bar if since
+      let progressBarHtml = '';
+      if (calc.isSince) {
+        const percent = Math.min(100, Math.round((calc.absDays % 365) / 365 * 100));
+        progressBarHtml = `
+          <div class="pt-2">
+            <div class="flex justify-between text-[10px] font-mono-swiss ${subColor}">
+              <span>ANNUAL CYCLE // 本年刻度</span>
+              <span>${percent}%</span>
+            </div>
+            <div class="w-full h-1 bg-neutral-800 mt-1 overflow-hidden">
+              <div class="h-full ${isHeroDark ? 'bg-white' : 'bg-black'}" style="width: ${percent}%"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      hero.innerHTML = `
+        <div onclick="openDetailModal('${pinnedEvent.id}')" class="transition-all">
+          <div class="flex items-center justify-between text-xs font-mono-swiss tracking-widest uppercase mb-1 ${subColor}">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 ${isHeroDark ? 'bg-white' : 'bg-black'}"></span>
+              <span>PINNED // ${pinnedEvent.category}</span>
+              ${photosCount > 0 ? `<span class="px-1 border ${isHeroDark ? 'border-neutral-700 text-neutral-300' : 'border-neutral-400 text-neutral-700'} text-[10px]">📷 ${photosCount}图</span>` : ''}
+            </div>
+            <span>${calc.subLabel}</span>
+          </div>
+
+          <div class="text-xl sm:text-2xl font-black tracking-tight mt-1 flex items-baseline justify-between">
+            <span>${pinnedEvent.title}</span>
+            <div class="flex gap-1.5 items-center">
+              ${pinnedEvent.calendarType === 'lunar' ? `<span class="text-[10px] font-mono-swiss px-1 border border-amber-600/60 text-amber-500 uppercase">农历</span>` : ''}
+              ${pinnedEvent.repeat !== 'none' ? `<span class="text-[10px] font-mono-swiss px-1.5 py-0.5 border ${isHeroDark ? 'border-neutral-700 text-neutral-300' : 'border-neutral-400 text-neutral-700'} uppercase">${pinnedEvent.repeat}</span>` : ''}
+            </div>
+          </div>
+
+          <!-- Massive Swiss Number -->
+          <div class="flex items-baseline gap-3 my-1">
+            <span class="text-7xl sm:text-8xl font-black tracking-tighter leading-none select-all">${calc.absDays}</span>
+            <span class="text-xs sm:text-sm font-mono-swiss font-bold tracking-widest ${subColor}">${calc.label}</span>
+          </div>
+
+          ${progressBarHtml}
+
+          <!-- Footer details -->
+          <div class="flex justify-between items-center text-xs font-mono-swiss pt-2 border-t ${borderColor} ${subColor} mt-2">
+            <span>${calc.displayLunarStr}</span>
+            <span class="group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 font-bold">
+              VIEW DETAILS & ALBUM ➜
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render List
+    function renderList() {
+      const list = document.getElementById('event-list');
+      const countLabel = document.getElementById('event-count-label');
+
+      let filtered = events.filter(e => {
+        const matchCat = currentCategory === 'ALL' || e.category === currentCategory;
+        const matchSearch = !searchQuery || e.title.toLowerCase().includes(searchQuery) || (e.notes && e.notes.toLowerCase().includes(searchQuery));
+        return matchCat && matchSearch;
+      });
+
+      countLabel.textContent = `${String(filtered.length).padStart(2, '0')} RECORDS`;
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="py-12 text-center text-xs font-mono-swiss text-neutral-500">
+            --- NO MATCHING RECORDS FOUND ---
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = filtered.map(ev => {
+        const calc = calculateDays(ev);
+        const dividerClass = isDark ? 'border-neutral-800 hover:bg-neutral-900/40' : 'border-neutral-200 hover:bg-neutral-100/60';
+        const subColor = isDark ? 'text-neutral-400' : 'text-neutral-500';
+        const pCount = ev.photos ? ev.photos.length : 0;
+
+        return `
+          <div class="py-3.5 flex items-baseline justify-between transition-colors px-1 cursor-pointer group ${dividerClass}" onclick="openDetailModal('${ev.id}')">
+            <!-- Left Info -->
+            <div class="space-y-0.5 max-w-[65%]">
+              <div class="flex items-center gap-2 text-[10px] font-mono-swiss tracking-widest uppercase ${subColor}">
+                <span>${ev.category}</span>
+                ${ev.pinned ? `<span class="px-1 border ${isDark ? 'border-white text-white' : 'border-black text-black'} font-bold">PIN</span>` : ''}
+                ${ev.calendarType === 'lunar' ? `<span class="text-amber-500 font-bold">农历</span>` : ''}
+                ${pCount > 0 ? `<span>📷${pCount}</span>` : ''}
+              </div>
+              <div class="text-base font-bold tracking-tight truncate">${ev.title}</div>
+              <div class="text-xs font-mono-swiss ${subColor} truncate">
+                ${calc.targetDateStr}
+              </div>
+            </div>
+
+            <!-- Right Number -->
+            <div class="text-right">
+              <div class="flex items-baseline justify-end gap-1">
+                <span class="text-3xl sm:text-4xl font-black tracking-tight leading-none">${calc.absDays}</span>
+                <span class="text-[10px] font-mono-swiss font-bold tracking-wider ${subColor}">D</span>
+              </div>
+              <span class="text-[10px] font-mono-swiss uppercase block ${subColor} mt-0.5">${calc.label}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAll() {
+      renderTabs();
+      renderHero();
+      renderList();
+    }
+
+    // Calendar Type Switch in Form
+    function setCalendarType(type) {
+      currentCalendarType = type;
+      const btnSolar = document.getElementById('btn-type-solar');
+      const btnLunar = document.getElementById('btn-type-lunar');
+      const boxSolar = document.getElementById('solar-input-box');
+      const boxLunar = document.getElementById('lunar-input-box');
+
+      if (type === 'solar') {
+        btnSolar.className = 'px-2 py-0.5 border border-white text-white font-bold text-[11px]';
+        btnLunar.className = 'px-2 py-0.5 border border-neutral-700 text-neutral-400 text-[11px]';
+        boxSolar.classList.remove('hidden');
+        boxLunar.classList.add('hidden');
+      } else {
+        btnLunar.className = 'px-2 py-0.5 border border-amber-500 text-amber-400 font-bold text-[11px]';
+        btnSolar.className = 'px-2 py-0.5 border border-neutral-700 text-neutral-400 text-[11px]';
+        boxLunar.classList.remove('hidden');
+        boxSolar.classList.add('hidden');
+      }
+    }
+
+    // Modal Control: Add / Edit
+    function openAddModal() {
+      document.getElementById('modal-title').textContent = 'NEW RECORD';
+      document.getElementById('modal-subheading').textContent = 'CREATE ENTRY // 新增';
+      document.getElementById('form-id').value = '';
+      document.getElementById('form-title').value = '';
+      setFormDateToday();
+      setCalendarType('solar');
+      populateCategorySelect('纪念日');
+      document.getElementById('form-mode').value = 'auto';
+      document.getElementById('form-repeat').value = 'none';
+      document.getElementById('form-pinned').checked = false;
+      document.getElementById('form-notes').value = '';
+      formPhotos = [];
+      renderScrapbookForm();
+      document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    function openEditModal(id) {
+      const ev = events.find(e => e.id === id);
+      if (!ev) return;
+      closeDetailModal();
+
+      document.getElementById('modal-title').textContent = 'EDIT RECORD';
+      document.getElementById('modal-subheading').textContent = 'MODIFY ENTRY // 编辑';
+      document.getElementById('form-id').value = ev.id;
+      document.getElementById('form-title').value = ev.title;
+      document.getElementById('form-date').value = ev.date || '';
+      
+      if (ev.calendarType === 'lunar') {
+        setCalendarType('lunar');
+        document.getElementById('form-lunar-month').value = ev.lunarMonth || 1;
+        document.getElementById('form-lunar-day').value = ev.lunarDay || 1;
+      } else {
+        setCalendarType('solar');
+      }
+
+      populateCategorySelect(ev.category || '纪念日');
+      document.getElementById('form-mode').value = ev.mode || 'auto';
+      document.getElementById('form-repeat').value = ev.repeat || 'none';
+      document.getElementById('form-pinned').checked = !!ev.pinned;
+      document.getElementById('form-notes').value = ev.notes || '';
+      formPhotos = ev.photos ? JSON.parse(JSON.stringify(ev.photos)) : [];
+      renderScrapbookForm();
+      document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('edit-modal').classList.add('hidden');
+    }
+
+    function setFormDateToday() {
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      document.getElementById('form-date').value = `${y}-${m}-${d}`;
+    }
+
+    function populateCategorySelect(selected) {
+      const sel = document.getElementById('form-category');
+      sel.innerHTML = categories.map(c => `
+        <option value="${c}" ${c === selected ? 'selected' : ''}>${c}</option>
+      `).join('');
+    }
+
+    // ================= Scrapbook Photo Handling =================
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (formPhotos.length >= 3) {
+        alert('最多上传 3 张照片！');
+        return;
+      }
+
+      const qualityMode = document.querySelector('input[name="photo-quality"]:checked').value;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // Compression constraints
+          const maxDim = qualityMode === 'hd' ? 1920 : 960;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const quality = qualityMode === 'hd' ? 0.92 : 0.75;
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+
+          formPhotos.push({
+            dataUrl: compressedDataUrl,
+            caption: '',
+            quality: qualityMode
+          });
+
+          renderScrapbookForm();
+          e.target.value = ''; // Reset input
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderScrapbookForm() {
+      const container = document.getElementById('scrapbook-container');
+      const addBtnBox = document.getElementById('add-photo-btn-box');
+
+      if (formPhotos.length >= 3) {
+        addBtnBox.classList.add('hidden');
+      } else {
+        addBtnBox.classList.remove('hidden');
+      }
+
+      container.innerHTML = formPhotos.map((p, idx) => `
+        <div class="p-3 border border-neutral-700 bg-neutral-900/60 rounded flex gap-3 items-start">
+          <!-- Thumbnail with Sticker action -->
+          <div class="relative w-24 h-24 flex-shrink-0 bg-black border border-neutral-700 rounded overflow-hidden group">
+            <img src="${p.dataUrl}" class="w-full h-full object-cover">
+            <button type="button" onclick="openStickerEditor(${idx})" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-[10px] font-bold transition-opacity">
+              ✨ 遮脸贴纸
+            </button>
+          </div>
+
+          <!-- Note / Caption -->
+          <div class="flex-1 space-y-1.5">
+            <div class="flex justify-between items-center text-[10px] text-neutral-400">
+              <span class="font-bold">照片 #${idx + 1} (${p.quality === 'hd' ? '原图高清' : '标清压缩'})</span>
+              <div class="flex gap-2">
+                <button type="button" onclick="openStickerEditor(${idx})" class="text-amber-400 hover:underline">✨ P图贴纸</button>
+                <button type="button" onclick="deleteFormPhoto(${idx})" class="text-red-400 hover:underline">删除</button>
+              </div>
+            </div>
+            <textarea placeholder="写下这张照片背后的故事（那天发生了什么事）..." rows="2" class="w-full bg-neutral-950 border border-neutral-700 p-1.5 text-xs text-white focus:outline-none focus:border-white" oninput="updatePhotoCaption(${idx}, this.value)">${p.caption || ''}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updatePhotoCaption(idx, val) {
+      if (formPhotos[idx]) {
+        formPhotos[idx].caption = val;
+      }
+    }
+
+    function deleteFormPhoto(idx) {
+      formPhotos.splice(idx, 1);
+      renderScrapbookForm();
+    }
+
+    // ================= Sticker / Face-Covering Canvas Editor =================
+    function initStickerTray() {
+      const tray = document.getElementById('sticker-tray');
+      tray.innerHTML = STICKER_LIST.map((s, idx) => `
+        <button type="button" onclick="addStickerToCanvas('${s.icon}')" class="p-2 border border-neutral-800 rounded hover:bg-neutral-800 hover:border-neutral-500 transition-all flex-shrink-0 flex flex-col items-center gap-0.5" title="${s.label}">
+          <span>${s.icon}</span>
+          <span class="text-[9px] text-neutral-400 whitespace-nowrap">${s.label}</span>
+        </button>
+      `).join('');
+    }
+
+    function openStickerEditor(photoIdx) {
+      stickerActivePhotoIndex = photoIdx;
+      const photo = formPhotos[photoIdx];
+      if (!photo) return;
+
+      stickerCanvas = document.getElementById('sticker-canvas');
+      stickerCtx = stickerCanvas.getContext('2d');
+      placedStickers = [];
+      activeStickerIndex = -1;
+
+      stickerBaseImage = new Image();
+      stickerBaseImage.onload = function() {
+        stickerCanvas.width = stickerBaseImage.width;
+        stickerCanvas.height = stickerBaseImage.height;
+        drawStickerCanvas();
+        document.getElementById('sticker-modal').classList.remove('hidden');
+        bindCanvasTouchEvents();
+      };
+      stickerBaseImage.src = photo.dataUrl;
+    }
+
+    function closeStickerModal() {
+      document.getElementById('sticker-modal').classList.add('hidden');
+    }
+
+    function drawStickerCanvas() {
+      if (!stickerCtx || !stickerBaseImage) return;
+      stickerCtx.clearRect(0, 0, stickerCanvas.width, stickerCanvas.height);
+      stickerCtx.drawImage(stickerBaseImage, 0, 0);
+
+      // Render stickers
+      placedStickers.forEach((st, idx) => {
+        stickerCtx.save();
+        stickerCtx.font = `${st.size}px sans-serif`;
+        stickerCtx.textAlign = 'center';
+        stickerCtx.textBaseline = 'middle';
+        stickerCtx.fillText(st.icon, st.x, st.y);
+
+        // Selection ring
+        if (idx === activeStickerIndex) {
+          stickerCtx.strokeStyle = '#ffffff';
+          stickerCtx.lineWidth = 3;
+          stickerCtx.strokeRect(st.x - st.size / 2 - 4, st.y - st.size / 2 - 4, st.size + 8, st.size + 8);
+        }
+        stickerCtx.restore();
+      });
+    }
+
+    function addStickerToCanvas(icon) {
+      const defaultSize = Math.max(60, Math.round(stickerCanvas.width * 0.18));
+      const newSticker = {
+        icon: icon,
+        x: stickerCanvas.width / 2,
+        y: stickerCanvas.height / 2,
+        size: defaultSize
+      };
+      placedStickers.push(newSticker);
+      activeStickerIndex = placedStickers.length - 1;
+      document.getElementById('sticker-size-slider').value = '1.0';
+      drawStickerCanvas();
+    }
+
+    function updateActiveStickerSize(scale) {
+      if (activeStickerIndex >= 0 && placedStickers[activeStickerIndex]) {
+        const baseSize = Math.max(60, Math.round(stickerCanvas.width * 0.18));
+        placedStickers[activeStickerIndex].size = Math.round(baseSize * parseFloat(scale));
+        drawStickerCanvas();
+      }
+    }
+
+    function deleteActiveSticker() {
+      if (activeStickerIndex >= 0) {
+        placedStickers.splice(activeStickerIndex, 1);
+        activeStickerIndex = placedStickers.length - 1;
+        drawStickerCanvas();
+      }
+    }
+
+    function clearAllStickers() {
+      placedStickers = [];
+      activeStickerIndex = -1;
+      drawStickerCanvas();
+    }
+
+    function saveStickerResult() {
+      // Export flattened canvas to base64
+      activeStickerIndex = -1;
+      drawStickerCanvas(); // Redraw without selection outline
+      const finalDataUrl = stickerCanvas.toDataURL('image/jpeg', 0.88);
+      if (formPhotos[stickerActivePhotoIndex]) {
+        formPhotos[stickerActivePhotoIndex].dataUrl = finalDataUrl;
+      }
+      renderScrapbookForm();
+      closeStickerModal();
+    }
+
+    function bindCanvasTouchEvents() {
+      function getCanvasCoords(clientX, clientY) {
+        const rect = stickerCanvas.getBoundingClientRect();
+        const scaleX = stickerCanvas.width / rect.width;
+        const scaleY = stickerCanvas.height / rect.height;
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY
+        };
+      }
+
+      function handleStart(clientX, clientY) {
+        const coords = getCanvasCoords(clientX, clientY);
+        // Find if user tapped an existing sticker (top-down)
+        let found = -1;
+        for (let i = placedStickers.length - 1; i >= 0; i--) {
+          const st = placedStickers[i];
+          const half = st.size / 2;
+          if (coords.x >= st.x - half && coords.x <= st.x + half &&
+              coords.y >= st.y - half && coords.y <= st.y + half) {
+            found = i;
+            break;
+          }
+        }
+        if (found !== -1) {
+          activeStickerIndex = found;
+          isDraggingSticker = true;
+          dragStartX = coords.x - placedStickers[found].x;
+          dragStartY = coords.y - placedStickers[found].y;
+          drawStickerCanvas();
+        } else {
+          activeStickerIndex = -1;
+          drawStickerCanvas();
+        }
+      }
+
+      function handleMove(clientX, clientY) {
+        if (!isDraggingSticker || activeStickerIndex === -1) return;
+        const coords = getCanvasCoords(clientX, clientY);
+        placedStickers[activeStickerIndex].x = coords.x - dragStartX;
+        placedStickers[activeStickerIndex].y = coords.y - dragStartY;
+        drawStickerCanvas();
+      }
+
+      function handleEnd() {
+        isDraggingSticker = false;
+      }
+
+      // Mouse
+      stickerCanvas.onmousedown = (e) => handleStart(e.clientX, e.clientY);
+      window.onmousemove = (e) => handleMove(e.clientX, e.clientY);
+      window.onmouseup = () => handleEnd();
+
+      // Touch
+      stickerCanvas.ontouchstart = (e) => {
+        if (e.touches.length === 1) {
+          handleStart(e.touches[0].clientX, e.touches[0].clientY);
+          e.preventDefault();
+        }
+      };
+      stickerCanvas.ontouchmove = (e) => {
+        if (e.touches.length === 1 && isDraggingSticker) {
+          handleMove(e.touches[0].clientX, e.touches[0].clientY);
+          e.preventDefault();
+        }
+      };
+      stickerCanvas.ontouchend = () => handleEnd();
+    }
+
+    // Save Event Form
+    function saveEvent(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-id').value;
+      const title = document.getElementById('form-title').value.trim();
+      const mode = document.getElementById('form-mode').value;
+      const category = document.getElementById('form-category').value;
+      const repeat = document.getElementById('form-repeat').value;
+      const pinned = document.getElementById('form-pinned').checked;
+      const notes = document.getElementById('form-notes').value.trim();
+
+      let date = document.getElementById('form-date').value;
+      let lunarMonth = null;
+      let lunarDay = null;
+
+      if (currentCalendarType === 'lunar') {
+        lunarMonth = parseInt(document.getElementById('form-lunar-month').value);
+        lunarDay = parseInt(document.getElementById('form-lunar-day').value);
+        // Compute solar date corresponding to this lunar date
+        const solarDate = lunarToSolar(new Date().getFullYear(), lunarMonth, lunarDay);
+        const y = solarDate.getFullYear();
+        const m = String(solarDate.getMonth() + 1).padStart(2, '0');
+        const d = String(solarDate.getDate()).padStart(2, '0');
+        date = `${y}-${m}-${d}`;
+      }
+
+      if (pinned) {
+        events.forEach(item => item.pinned = false);
+      }
+
+      if (id) {
+        const index = events.findIndex(item => item.id === id);
+        if (index !== -1) {
+          events[index] = {
+            ...events[index],
+            title,
+            date,
+            calendarType: currentCalendarType,
+            lunarMonth,
+            lunarDay,
+            mode,
+            category,
+            repeat,
+            pinned,
+            notes,
+            photos: [...formPhotos]
+          };
+        }
+      } else {
+        const newEvent = {
+          id: 'ev-' + Date.now(),
+          title,
+          date,
+          calendarType: currentCalendarType,
+          lunarMonth,
+          lunarDay,
+          mode,
+          category,
+          repeat,
+          pinned,
+          notes,
+          photos: [...formPhotos]
+        };
+        events.unshift(newEvent);
+      }
+
+      saveToStorage();
+      closeModal();
+      renderAll();
+    }
+
+    // ================= Detail Modal & Album View =================
+    function openDetailModal(id) {
+      const ev = events.find(e => e.id === id);
+      if (!ev) return;
+      const calc = calculateDays(ev);
+      const isModalDark = isDark;
+      const subColor = isModalDark ? 'text-neutral-400' : 'text-neutral-600';
+      const borderLine = isModalDark ? 'border-neutral-800' : 'border-neutral-200';
+
+      // Milestones
+      let milestoneHtml = '';
+      if (calc.isSince) {
+        const milestones = [100, 200, 300, 500, 1000, 2000, 5000, 10000];
+        const nextMs = milestones.find(m => m > calc.absDays);
+        if (nextMs) {
+          const daysToNext = nextMs - calc.absDays;
+          milestoneHtml = `
+            <div class="p-3 border ${borderLine} bg-neutral-900/30 text-xs font-mono-swiss space-y-1">
+              <div class="text-[10px] uppercase text-neutral-400">NEXT MILESTONE // 下一个里程碑</div>
+              <div class="flex justify-between items-baseline font-bold">
+                <span>${nextMs} DAYS 纪念日</span>
+                <span>还有 ${daysToNext} 天</span>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // Memory Album (Photos & Captions)
+      let albumHtml = '';
+      if (ev.photos && ev.photos.length > 0) {
+        albumHtml = `
+          <div class="space-y-3 pt-3 border-t ${borderLine}">
+            <div class="flex items-center justify-between text-xs font-mono-swiss">
+              <span class="font-bold uppercase tracking-wider">📸 纪念卡册 (${ev.photos.length}张现场照片)</span>
+              <span class="text-[10px] text-neutral-500">那一天的回忆</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              ${ev.photos.map((p, pIdx) => `
+                <div class="border ${borderLine} p-2 bg-neutral-900/40 rounded space-y-1.5">
+                  <div class="aspect-square bg-black overflow-hidden rounded border ${borderLine}">
+                    <img src="${p.dataUrl}" class="w-full h-full object-cover">
+                  </div>
+                  <p class="text-[11px] leading-relaxed text-neutral-300 font-sans break-words">${p.caption || '未填写备注说明'}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      const content = document.getElementById('detail-content');
+      content.innerHTML = `
+        <div class="flex justify-between items-start border-b-2 ${isModalDark ? 'border-white' : 'border-black'} pb-3">
+          <div>
+            <span class="text-[10px] font-mono-swiss tracking-widest uppercase ${subColor}">TIMELINE ARCHIVE // 详情</span>
+            <h2 class="text-2xl font-black tracking-tight mt-0.5">${ev.title}</h2>
+          </div>
+          <button onclick="closeDetailModal()" class="font-mono text-sm px-2 py-1 border border-neutral-700 uppercase">
+            ESC
+          </button>
+        </div>
+
+        <div class="space-y-4 pt-3 text-xs font-mono-swiss">
+          <!-- Giant Display -->
+          <div class="text-center py-4 border-b ${borderLine}">
+            <div class="text-6xl sm:text-7xl font-black tracking-tighter leading-none">${calc.absDays}</div>
+            <div class="text-xs uppercase tracking-widest font-bold mt-2 ${subColor}">${calc.label}</div>
+            <div class="text-[11px] text-neutral-500 mt-1">${calc.subLabel} · ${calc.displayLunarStr}</div>
+          </div>
+
+          <!-- Metadata Grid -->
+          <div class="grid grid-cols-2 gap-3 border-b ${borderLine} pb-4">
+            <div>
+              <span class="text-[10px] uppercase ${subColor} block">CATEGORY / 分类</span>
+              <span class="font-bold text-sm">${ev.category}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase ${subColor} block">REPEAT / 重复周期</span>
+              <span class="font-bold text-sm uppercase">${ev.repeat}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase ${subColor} block">TARGET DATE / 目标日期</span>
+              <span class="font-bold text-sm">${calc.targetDateStr}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase ${subColor} block">CALENDAR / 历法</span>
+              <span class="font-bold text-sm">${ev.calendarType === 'lunar' ? '农历阴历' : '公历阳历'}</span>
+            </div>
+          </div>
+
+          <!-- Milestone box -->
+          ${milestoneHtml}
+
+          <!-- Notes -->
+          ${ev.notes ? `
+            <div class="space-y-1 border-b ${borderLine} pb-4">
+              <span class="text-[10px] uppercase ${subColor} block">NOTES // 约定与备注</span>
+              <p class="text-xs leading-relaxed text-neutral-300 font-sans">${ev.notes}</p>
+            </div>
+          ` : ''}
+
+          <!-- Memory Scrapbook -->
+          ${albumHtml}
+
+          <!-- Function Buttons (Calendar sync & Poster generator) -->
+          <div class="grid grid-cols-2 gap-2 pt-2">
+            <button onclick="syncToCalendar('${ev.id}')" class="py-2.5 bg-neutral-900 border border-neutral-700 font-mono text-[11px] font-bold uppercase hover:bg-neutral-800 transition-colors flex items-center justify-center gap-1.5">
+              <span>🗓️</span>
+              <span>写入系统日历</span>
+            </button>
+            <button onclick="openPosterModal('${ev.id}')" class="py-2.5 bg-white text-black font-mono text-[11px] font-bold uppercase hover:bg-neutral-200 transition-colors flex items-center justify-center gap-1.5">
+              <span>🖼️</span>
+              <span>生成极简海报</span>
+            </button>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="grid grid-cols-3 gap-2 pt-1 border-t ${borderLine}">
+            <button onclick="togglePin('${ev.id}')" class="py-2 border border-neutral-700 font-mono text-[11px] uppercase hover:bg-neutral-800 transition-colors">
+              ${ev.pinned ? 'UNPIN' : 'PIN TO TOP'}
+            </button>
+            <button onclick="openEditModal('${ev.id}')" class="py-2 border border-neutral-700 font-mono text-[11px] uppercase hover:bg-neutral-800 transition-colors">
+              EDIT / 补图
+            </button>
+            <button onclick="deleteEvent('${ev.id}')" class="py-2 border border-red-800 text-red-400 font-mono text-[11px] uppercase hover:bg-red-950/40 transition-colors">
+              DELETE
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('detail-modal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() {
+      document.getElementById('detail-modal').classList.add('hidden');
+    }
+
+    function togglePin(id) {
+      const ev = events.find(e => e.id === id);
+      if (!ev) return;
+      const targetState = !ev.pinned;
+      if (targetState) {
+        events.forEach(item => item.pinned = false);
+      }
+      ev.pinned = targetState;
+      saveToStorage();
+      closeDetailModal();
+      renderAll();
+    }
+
+    function deleteEvent(id) {
+      if (confirm('确认删除该记录吗？此操作无法撤销。')) {
+        events = events.filter(e => e.id !== id);
+        saveToStorage();
+        closeDetailModal();
+        renderAll();
+      }
+    }
+
+    // ================= System Calendar Sync (.ICS generation) =================
+    function syncToCalendar(id) {
+      const ev = events.find(e => e.id === id);
+      if (!ev) return;
+
+      const calc = calculateDays(ev);
+      const parts = ev.date.split('-');
+      const y = parts[0];
+      const m = parts[1];
+      const d = parts[2];
+      const dateTag = `${y}${m}${d}`;
+
+      // Standard iCalendar RFC 5545 format
+      const icsData = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//ShiYue//Memory Calendar//CN',
+        'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT',
+        `SUMMARY:【时约】${ev.title}`,
+        `DESCRIPTION:${ev.notes || '时约纪念日提醒'}`,
+        `DTSTART;VALUE=DATE:${dateTag}`,
+        `DTEND;VALUE=DATE:${dateTag}`,
+        'BEGIN:VALARM',
+        'TRIGGER:-PT9H', // 9 hours before (morning reminder)
+        'ACTION:DISPLAY',
+        `DESCRIPTION:【时约】${ev.title} 纪念日提醒`,
+        'END:VALARM',
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+
+      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `时约_${ev.title}.ics`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+
+      alert(`已生成并导出日历日程【时约_${ev.title}.ics】！在手机文件管理或通知中点击即可直接添加到系统日历中。`);
+    }
+
+    // ================= Share Poster Generator =================
+    function openPosterModal(id) {
+      const ev = events.find(e => e.id === id);
+      if (!ev) return;
+      const calc = calculateDays(ev);
+
+      const canvas = document.getElementById('poster-canvas');
+      canvas.width = 1080;
+      canvas.height = 1440;
+      const ctx = canvas.getContext('2d');
+
+      // Swiss Minimalist Poster Layout
+      ctx.fillStyle = '#121212';
+      ctx.fillRect(0, 0, 1080, 1440);
+
+      // White geometric border
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(40, 40, 1000, 1360);
+
+      // Top Tag
+      ctx.fillStyle = '#888888';
+      ctx.font = '24px "Space Mono", monospace';
+      ctx.fillText('SHIYUE // TIMELINE ARCHIVE', 80, 110);
+      ctx.fillText(`INDEX // ${ev.category}`, 750, 110);
+
+      // Divider line
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(80, 140);
+      ctx.lineTo(1000, 140);
+      ctx.stroke();
+
+      // Title
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 64px "Inter", sans-serif';
+      ctx.fillText(ev.title, 80, 230);
+
+      // Giant Number
+      ctx.font = '900 240px "Inter", sans-serif';
+      ctx.fillText(calc.absDays, 80, 480);
+
+      // Days label
+      ctx.font = 'bold 36px "Space Mono", monospace';
+      ctx.fillStyle = '#AAAAAA';
+      ctx.fillText(calc.label, 80, 540);
+      ctx.font = '28px "Space Mono", monospace';
+      ctx.fillText(`${calc.subLabel} · ${calc.displayLunarStr}`, 80, 590);
+
+      // Optional Photo Box
+      if (ev.photos && ev.photos.length > 0) {
+        const photoImg = new Image();
+        photoImg.onload = function() {
+          ctx.drawImage(photoImg, 80, 640, 920, 540);
+          renderPosterFooter(ctx, ev);
+          document.getElementById('poster-modal').classList.remove('hidden');
+        };
+        photoImg.src = ev.photos[0].dataUrl;
+      } else {
+        // Text quotation
+        if (ev.notes) {
+          ctx.fillStyle = '#CCCCCC';
+          ctx.font = '32px "Inter", sans-serif';
+          ctx.fillText(`“ ${ev.notes} ”`, 80, 750);
+        }
+        renderPosterFooter(ctx, ev);
+        document.getElementById('poster-modal').classList.remove('hidden');
+      }
+    }
+
+    function renderPosterFooter(ctx, ev) {
+      // Bottom divider
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(80, 1260);
+      ctx.lineTo(1000, 1260);
+      ctx.stroke();
+
+      // Footer branding
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 32px "Space Mono", monospace';
+      ctx.fillText('时约 // CHRONO', 80, 1320);
+
+      ctx.fillStyle = '#888888';
+      ctx.font = '22px "Space Mono", monospace';
+      ctx.fillText('守候每一个值得铭记的时刻', 640, 1320);
+    }
+
+    function closePosterModal() {
+      document.getElementById('poster-modal').classList.add('hidden');
+    }
+
+    function downloadPoster() {
+      const canvas = document.getElementById('poster-canvas');
+      const url = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `时约海报_${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    // ================= Category Manager =================
+    function openCategoryManager() {
+      renderCategoryManageList();
+      document.getElementById('category-modal').classList.remove('hidden');
+    }
+
+    function closeCategoryModal() {
+      document.getElementById('category-modal').classList.add('hidden');
+    }
+
+    function renderCategoryManageList() {
+      const list = document.getElementById('category-manage-list');
+      list.innerHTML = categories.map((cat, idx) => `
+        <div class="flex items-center justify-between p-2.5 border border-neutral-800 bg-neutral-900/50 text-xs font-mono-swiss">
+          <span>[${cat}]</span>
+          ${DEFAULT_CATEGORIES.includes(cat) ? `<span class="text-[10px] text-neutral-500">默认分类</span>` : `
+            <button onclick="deleteCustomCategory(${idx})" class="text-red-400 hover:text-red-300 text-[11px] underline">
+              删除
+            </button>
+          `}
+        </div>
+      `).join('');
+    }
+
+    function addCustomCategory() {
+      const input = document.getElementById('new-cat-input');
+      const val = input.value.trim();
+      if (!val) return;
+      if (categories.includes(val)) {
+        alert('分类已存在！');
+        return;
+      }
+      categories.push(val);
+      input.value = '';
+      saveToStorage();
+      renderCategoryManageList();
+      renderTabs();
+    }
+
+    function deleteCustomCategory(idx) {
+      const cat = categories[idx];
+      if (confirm(`确认删除分类 [${cat}] 吗？`)) {
+        categories.splice(idx, 1);
+        saveToStorage();
+        renderCategoryManageList();
+        renderTabs();
+      }
+    }
+
+    // ================= Data Backup & Restore =================
+    function openBackupModal() {
+      document.getElementById('backup-modal').classList.remove('hidden');
+    }
+
+    function closeBackupModal() {
+      document.getElementById('backup-modal').classList.add('hidden');
+    }
+
+    function exportData() {
+      const exportPayload = {
+        app: 'ShiYue',
+        version: '2.0',
+        categories: categories,
+        events: events
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      const now = new Date();
+      const dateTag = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `时约_BACKUP_${dateTag}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.events && Array.isArray(imported.events)) {
+            events = imported.events;
+            if (imported.categories && Array.isArray(imported.categories)) {
+              categories = imported.categories;
+            }
+          } else if (Array.isArray(imported)) {
+            events = imported;
+          }
+          saveToStorage();
+          renderAll();
+          alert('数据恢复成功！');
+          closeBackupModal();
+        } catch (err) {
+          alert('读取文件出错：' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetDefaults() {
+      if (confirm('确定要清除当前数据并恢复为初始演示数据吗？建议先导出备份！')) {
+        localStorage.removeItem('SHIYUE_EVENTS_V2');
+        localStorage.removeItem('SHIYUE_CATEGORIES');
+        location.reload();
+      }
+    }
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeDetailModal();
+        closeCategoryModal();
+        closeBackupModal();
+        closePosterModal();
+        closeStickerModal();
+      }
+    });
+
+    // Start App
+    initData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Tool downloads and temporary build caches
+.builder/jre/
+.builder/jre.zip
+.builder/out/
+.builder/*.jar
+.builder/*.exe
+.builder/*.zip
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+SwissDays.apk
