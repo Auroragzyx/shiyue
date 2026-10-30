@@ -1,170 +1,376 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN" class="dark" data-palette="violet">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>时约 // 瑞士极简纪念日</title>
+  <title>时约 // Material You 纪念日</title>
   <link rel="icon" type="image/png" href="./favicon.png">
   <link rel="manifest" href="./manifest.json">
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
+    /* Material Design 3 Dynamic Token Architecture */
     :root {
-      --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: 'Space+Mono', monospace;
+      --font-brand: 'Plus Jakarta Sans', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* M3 Violet Palette (Default Light) */
+      --md-sys-color-primary: #6750A4;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #EADDFF;
+      --md-sys-color-on-primary-container: #21005D;
+      --md-sys-color-secondary: #625B71;
+      --md-sys-color-secondary-container: #E8DEF8;
+      --md-sys-color-on-secondary-container: #1D192B;
+      --md-sys-color-tertiary: #7D5260;
+      --md-sys-color-tertiary-container: #FFD8E4;
+      --md-sys-color-on-tertiary-container: #31111D;
+      --md-sys-color-surface: #FEF7FF;
+      --md-sys-color-surface-container-lowest: #FFFFFF;
+      --md-sys-color-surface-container-low: #F7F2FA;
+      --md-sys-color-surface-container: #F3EDF7;
+      --md-sys-color-surface-container-high: #ECE6F0;
+      --md-sys-color-surface-container-highest: #E6E0E9;
+      --md-sys-color-on-surface: #1D1B20;
+      --md-sys-color-on-surface-variant: #49454F;
+      --md-sys-color-outline: #79747E;
+      --md-sys-color-outline-variant: #CAC4D0;
+      --md-sys-color-background: #FEF7FF;
+      --md-sys-color-on-background: #1D1B20;
+    }
+
+    /* M3 Dark Mode */
+    html.dark {
+      --md-sys-color-primary: #D0BCFF;
+      --md-sys-color-on-primary: #381E72;
+      --md-sys-color-primary-container: #4F378B;
+      --md-sys-color-on-primary-container: #EADDFF;
+      --md-sys-color-secondary: #CCC2DC;
+      --md-sys-color-secondary-container: #4A4458;
+      --md-sys-color-on-secondary-container: #E8DEF8;
+      --md-sys-color-tertiary: #EFB8C8;
+      --md-sys-color-tertiary-container: #633B48;
+      --md-sys-color-on-tertiary-container: #FFD8E4;
+      --md-sys-color-surface: #141218;
+      --md-sys-color-surface-container-lowest: #0F0D13;
+      --md-sys-color-surface-container-low: #1D1B20;
+      --md-sys-color-surface-container: #211F26;
+      --md-sys-color-surface-container-high: #2B2930;
+      --md-sys-color-surface-container-highest: #36343B;
+      --md-sys-color-on-surface: #E6E1E5;
+      --md-sys-color-on-surface-variant: #CAC4D0;
+      --md-sys-color-outline: #938F99;
+      --md-sys-color-outline-variant: #49454F;
+      --md-sys-color-background: #141218;
+      --md-sys-color-on-background: #E6E1E5;
+    }
+
+    /* Palette: Oceanic Blue */
+    html[data-palette="blue"] {
+      --md-sys-color-primary: #006399;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #CEE5FF;
+      --md-sys-color-on-primary-container: #001D32;
+      --md-sys-color-secondary-container: #D7E3F8;
+      --md-sys-color-on-secondary-container: #101C2B;
+      --md-sys-color-surface: #F8F9FF;
+      --md-sys-color-surface-container-low: #F1F4FA;
+      --md-sys-color-surface-container: #EBEFF5;
+      --md-sys-color-surface-container-high: #E5E9EF;
+      --md-sys-color-surface-container-highest: #DFE3E9;
+    }
+    html.dark[data-palette="blue"] {
+      --md-sys-color-primary: #96CCFF;
+      --md-sys-color-on-primary: #003353;
+      --md-sys-color-primary-container: #004A75;
+      --md-sys-color-on-primary-container: #CEE5FF;
+      --md-sys-color-secondary-container: #3B4858;
+      --md-sys-color-on-secondary-container: #D7E3F8;
+      --md-sys-color-surface: #101418;
+      --md-sys-color-surface-container-low: #181C20;
+      --md-sys-color-surface-container: #1C2024;
+      --md-sys-color-surface-container-high: #272A2F;
+      --md-sys-color-surface-container-highest: #31353A;
+    }
+
+    /* Palette: Botanical Green (Sage) */
+    html[data-palette="green"] {
+      --md-sys-color-primary: #006D44;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #8FF7BE;
+      --md-sys-color-on-primary-container: #002111;
+      --md-sys-color-secondary-container: #D3E8D7;
+      --md-sys-color-on-secondary-container: #0D1F14;
+      --md-sys-color-surface: #F6FBF3;
+      --md-sys-color-surface-container-low: #EFF5ED;
+      --md-sys-color-surface-container: #E9EFE7;
+      --md-sys-color-surface-container-high: #E3EAE2;
+      --md-sys-color-surface-container-highest: #DDE4DC;
+    }
+    html.dark[data-palette="green"] {
+      --md-sys-color-primary: #72DAA3;
+      --md-sys-color-on-primary: #003920;
+      --md-sys-color-primary-container: #005232;
+      --md-sys-color-on-primary-container: #8FF7BE;
+      --md-sys-color-secondary-container: #384B3D;
+      --md-sys-color-on-secondary-container: #D3E8D7;
+      --md-sys-color-surface: #0E1510;
+      --md-sys-color-surface-container-low: #161D18;
+      --md-sys-color-surface-container: #1A211C;
+      --md-sys-color-surface-container-high: #252C26;
+      --md-sys-color-surface-container-highest: #303731;
+    }
+
+    /* Palette: Terracotta Amber */
+    html[data-palette="amber"] {
+      --md-sys-color-primary: #8C4E00;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #FFDCC1;
+      --md-sys-color-on-primary-container: #2E1500;
+      --md-sys-color-secondary-container: #F5DEC8;
+      --md-sys-color-on-secondary-container: #2A1706;
+      --md-sys-color-surface: #FFF8F5;
+      --md-sys-color-surface-container-low: #FAF1EC;
+      --md-sys-color-surface-container: #F4EBE6;
+      --md-sys-color-surface-container-high: #EEE5E1;
+      --md-sys-color-surface-container-highest: #E8E0DB;
+    }
+    html.dark[data-palette="amber"] {
+      --md-sys-color-primary: #FFB77C;
+      --md-sys-color-on-primary: #4B2700;
+      --md-sys-color-primary-container: #6A3A00;
+      --md-sys-color-on-primary-container: #FFDCC1;
+      --md-sys-color-secondary-container: #574332;
+      --md-sys-color-on-secondary-container: #F5DEC8;
+      --md-sys-color-surface: #18120E;
+      --md-sys-color-surface-container-low: #201A16;
+      --md-sys-color-surface-container: #251E1A;
+      --md-sys-color-surface-container-high: #302824;
+      --md-sys-color-surface-container-highest: #3B332E;
     }
 
     body {
-      font-family: var(--font-sans);
+      font-family: var(--font-brand);
+      background-color: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-background);
       font-feature-settings: "tnum" on, "cv02" on, "cv03" on, "cv04" on;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    .font-mono-swiss {
+    .font-mono-num {
       font-family: var(--font-mono);
+      font-feature-settings: "tnum" on;
     }
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
+    /* M3 Surface Classes */
+    .m3-surface { background-color: var(--md-sys-color-surface); }
+    .m3-surface-low { background-color: var(--md-sys-color-surface-container-low); }
+    .m3-surface-container { background-color: var(--md-sys-color-surface-container); }
+    .m3-surface-high { background-color: var(--md-sys-color-surface-container-high); }
+    .m3-surface-highest { background-color: var(--md-sys-color-surface-container-highest); }
+    
+    .m3-primary { background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+    .m3-primary-container { background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+    .m3-secondary-container { background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+
+    .m3-border-outline { border-color: var(--md-sys-color-outline-variant); }
+    .m3-text-variant { color: var(--md-sys-color-on-surface-variant); }
+
+    /* M3 Elevation Shadows */
+    .m3-elevation-1 {
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.08), 0px 1px 2px 0px rgba(0, 0, 0, 0.12);
     }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(128, 128, 128, 0.3);
+    .m3-elevation-2 {
+      box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
     }
-    ::-webkit-scrollbar-track {
-      background: transparent;
+    .m3-elevation-3 {
+      box-shadow: 0px 4px 12px 3px rgba(0, 0, 0, 0.12), 0px 1px 3px 0px rgba(0, 0, 0, 0.18);
     }
 
-    /* Touch control canvas */
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-thumb { background: rgba(140, 140, 140, 0.25); border-radius: 9999px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+
+    /* Smooth Slide-up Bottom Sheet */
+    .bottom-sheet-content {
+      animation: m3SlideUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.0);
+    }
+    @keyframes m3SlideUp {
+      from { transform: translateY(100%); opacity: 0.6; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Ripple & Scale Touch Feel */
+    .m3-pressable {
+      transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease;
+    }
+    .m3-pressable:active {
+      transform: scale(0.97);
+    }
+
+    /* Touch Canvas */
     .touch-none {
       touch-action: none;
     }
   </style>
 </head>
-<body class="bg-[#121212] text-[#F4F4F4] transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-white selection:text-black">
+<body class="min-h-screen flex flex-col justify-between selection:bg-purple-300 selection:text-purple-900 pb-24 sm:pb-12">
 
-  <!-- Mobile App Frame Container -->
-  <div class="w-full max-w-lg mx-auto flex-1 flex flex-col px-4 pt-4 pb-8 sm:px-6">
+  <!-- ================= App Container ================= -->
+  <div class="w-full max-w-lg mx-auto flex-1 flex flex-col px-4 pt-2 sm:px-6">
 
-    <!-- Top Status Bar & Header -->
-    <header class="border-b-2 border-white pb-3 pt-1 transition-colors duration-200" id="header-border">
-      <div class="flex items-center justify-between text-xs font-mono-swiss tracking-widest uppercase opacity-70 mb-1">
-        <span id="live-date">2026.10.30 // FRI</span>
-        <div class="flex items-center gap-2 sm:gap-3">
-          <button onclick="toggleTheme()" class="hover:opacity-100 transition-opacity font-mono text-xs uppercase" title="切换暗黑/浅色模式">
-            <span id="theme-btn-text">[DARK]</span>
-          </button>
-          <button onclick="openCategoryManager()" class="hover:opacity-100 transition-opacity font-mono text-xs uppercase" title="分类管理">
-            [分类]
-          </button>
-          <button onclick="openBackupModal()" class="hover:opacity-100 transition-opacity font-mono text-xs uppercase" title="数据备份与恢复">
-            [DATA]
-          </button>
-        </div>
-      </div>
-
-      <div class="flex items-end justify-between mt-2">
-        <div>
-          <span class="text-[11px] font-mono-swiss tracking-[0.2em] uppercase opacity-50 block" id="header-lunar">农历计算 // 极简纪念</span>
-          <h1 class="text-3xl font-black tracking-tighter uppercase leading-none mt-0.5">时约 // TIMELINE</h1>
-        </div>
+    <!-- ================= M3 Top App Bar ================= -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-opacity-90 m3-surface-container -mx-4 px-4 py-3 border-b m3-border-outline transition-colors sm:rounded-b-2xl sm:mx-0">
+      <div class="flex items-center justify-between">
         
-        <button onclick="openAddModal()" class="px-3.5 py-2 bg-white text-black text-xs font-mono-swiss font-bold tracking-wider uppercase hover:bg-neutral-200 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm" id="new-btn">
-          <span>+</span>
-          <span>NEW ENTRY</span>
-        </button>
+        <!-- Brand & Logo -->
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl m3-primary-container flex items-center justify-center font-bold text-base shadow-sm">
+            <span>⏳</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h1 class="text-lg font-extrabold tracking-tight">时约</h1>
+              <span class="text-[10px] font-mono-num font-semibold uppercase px-1.5 py-0.5 rounded-full m3-secondary-container">CHRONO M3</span>
+            </div>
+            <p class="text-[11px] m3-text-variant leading-none mt-0.5" id="header-lunar-full">守候每一个值得铭记的时刻</p>
+          </div>
+        </div>
+
+        <!-- M3 Action Icon Buttons -->
+        <div class="flex items-center gap-1.5">
+          <!-- Palette Switcher -->
+          <button onclick="togglePalette()" class="w-9 h-9 rounded-full m3-surface-high flex items-center justify-center m3-pressable border m3-border-outline" title="切换 Material You 调色盘">
+            <span class="text-sm" id="palette-icon">🎨</span>
+          </button>
+          
+          <!-- Theme Dark/Light Toggle -->
+          <button onclick="toggleTheme()" class="w-9 h-9 rounded-full m3-surface-high flex items-center justify-center m3-pressable border m3-border-outline" title="切换深浅色彩模式">
+            <span class="text-sm" id="theme-btn-icon">☀️</span>
+          </button>
+
+          <!-- Data / Settings Button -->
+          <button onclick="openBackupModal()" class="w-9 h-9 rounded-full m3-surface-high flex items-center justify-center m3-pressable border m3-border-outline" title="数据备份与设置">
+            <span class="text-sm">⚙️</span>
+          </button>
+        </div>
+
       </div>
 
-      <!-- Quick Filter Bar -->
-      <div class="flex items-center gap-2 overflow-x-auto pt-3 text-xs font-mono-swiss no-scrollbar" id="category-tabs">
+      <!-- Quick Date & Today Lunar Sub-bar -->
+      <div class="flex items-center justify-between text-[11px] font-mono-num m3-text-variant pt-2 mt-1 border-t border-dashed border-gray-400/20">
+        <span id="live-date">2026.10.30 星期五</span>
+        <span id="live-lunar">农历计算中...</span>
+      </div>
+
+      <!-- M3 Filter Chips Scrollbar -->
+      <div class="flex items-center gap-2 overflow-x-auto pt-3 pb-1 no-scrollbar" id="category-tabs">
         <!-- Rendered by JS -->
       </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 space-y-5 pt-4">
+    <!-- ================= Main Content Area ================= -->
+    <main class="flex-1 space-y-4 pt-3">
 
-      <!-- Pinned Hero Card -->
-      <section id="hero-section" class="relative group cursor-pointer border-b border-neutral-700 pb-5 transition-all">
+      <!-- M3 Hero Card (Pinned Focus Countdown) -->
+      <section id="hero-section" class="relative group cursor-pointer transition-all">
         <!-- Injected by renderHero() -->
       </section>
 
-      <!-- Search & Count Bar -->
-      <div class="flex items-center justify-between text-xs font-mono-swiss pt-1 text-neutral-400">
-        <div class="flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-white rounded-none" id="status-dot"></span>
-          <span id="event-count-label">04 RECORDS</span>
+      <!-- M3 Search Bar & Count Stats -->
+      <div class="flex items-center gap-3 pt-1">
+        <div class="flex-1 relative flex items-center">
+          <span class="absolute left-3 text-xs opacity-50">🔍</span>
+          <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="搜索纪念日、备注或日期..." class="w-full pl-8 pr-8 py-2 rounded-2xl m3-surface-high text-xs m3-border-outline border focus:outline-none focus:ring-2 focus:ring-[var(--md-sys-color-primary)] transition-all placeholder:text-gray-400">
+          <button onclick="clearSearch()" id="clear-search-btn" class="absolute right-2.5 text-xs opacity-50 hover:opacity-100 hidden">✕</button>
         </div>
-        <div class="relative">
-          <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="SEARCH // 查找..." class="bg-transparent border-b border-neutral-700 text-xs font-mono-swiss px-1 py-0.5 focus:outline-none focus:border-white transition-colors w-32 placeholder:text-neutral-600">
-        </div>
+        <span class="text-xs font-mono-num px-2.5 py-1.5 rounded-xl m3-surface-container font-semibold m3-text-variant whitespace-nowrap" id="event-count-label">
+          0 条记录
+        </span>
       </div>
 
-      <!-- Event List (Swiss High Contrast Divided List) -->
-      <section id="event-list" class="divide-y divide-neutral-800 transition-colors">
+      <!-- Event List (M3 Elevated Cards) -->
+      <section id="event-list" class="space-y-3 pb-8 transition-colors">
         <!-- Injected by renderList() -->
       </section>
 
     </main>
 
-    <!-- Minimalist Footer -->
-    <footer class="pt-6 border-t border-neutral-800 text-[11px] font-mono-swiss text-neutral-500 flex justify-between items-center mt-6">
-      <span>时约 // SWISS MINIMAL</span>
-      <span>OFFLINE & PRIVACY SAFE</span>
+    <!-- ================= Minimalist Footer ================= -->
+    <footer class="pt-4 pb-2 text-[11px] font-mono-num m3-text-variant flex justify-between items-center opacity-70">
+      <span>时约 · MATERIAL DESIGN 3</span>
+      <span>100% 离线隐私保护</span>
     </footer>
 
   </div>
 
-  <!-- ==================== MODAL: ADD / EDIT RECORD ==================== -->
-  <div id="edit-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
-    <div class="bg-[#121212] text-white border-t sm:border border-white w-full max-w-lg p-6 max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl transition-all" id="modal-container">
+  <!-- ================= M3 Extended FAB (Floating Action Button) ================= -->
+  <div class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40">
+    <button onclick="openAddModal()" class="flex items-center gap-2.5 px-5 py-3.5 rounded-2xl m3-primary-container m3-elevation-3 font-semibold text-sm m3-pressable border border-white/20 active:shadow-md transition-all">
+      <span class="text-lg leading-none font-bold">+</span>
+      <span class="tracking-wide">添加纪念</span>
+    </button>
+  </div>
+
+  <!-- ==================== M3 BOTTOM SHEET: ADD / EDIT RECORD ==================== -->
+  <div id="edit-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+    <div class="m3-surface-low text-current w-full max-w-lg rounded-t-[28px] p-6 max-h-[92vh] overflow-y-auto space-y-4 m3-elevation-3 bottom-sheet-content border-t m3-border-outline" id="modal-container">
       
-      <div class="flex justify-between items-start border-b-2 border-white pb-3">
+      <!-- Drag Handle -->
+      <div class="w-10 h-1.5 rounded-full bg-gray-400/40 mx-auto -mt-2 mb-2 cursor-pointer" onclick="closeModal()"></div>
+
+      <div class="flex justify-between items-center pb-2 border-b m3-border-outline">
         <div>
-          <span class="text-[10px] font-mono-swiss tracking-widest uppercase opacity-60" id="modal-subheading">ENTRY FORM</span>
-          <h2 class="text-xl font-black tracking-tight uppercase mt-0.5" id="modal-title">NEW RECORD</h2>
+          <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider m3-text-variant" id="modal-subheading">ENTRY FORM</span>
+          <h2 class="text-xl font-bold tracking-tight" id="modal-title">添加新纪念日</h2>
         </div>
-        <button onclick="closeModal()" class="font-mono text-sm px-2 py-1 hover:bg-neutral-800 border border-neutral-700 uppercase">
-          ESC
+        <button onclick="closeModal()" class="w-8 h-8 rounded-full m3-surface-high flex items-center justify-center text-sm font-bold m3-pressable">
+          ✕
         </button>
       </div>
 
-      <form id="event-form" onsubmit="saveEvent(event)" class="space-y-4 text-xs font-mono-swiss">
+      <form id="event-form" onsubmit="saveEvent(event)" class="space-y-4 text-xs">
         <input type="hidden" id="form-id">
 
         <!-- Title -->
-        <div class="space-y-1">
-          <label class="block uppercase tracking-wider text-neutral-400">事件名称 / EVENT NAME *</label>
-          <input type="text" id="form-title" required placeholder="如：相恋纪念日、考研初试、妈妈生日" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-sm text-white focus:outline-none focus:border-white transition-colors">
+        <div class="space-y-1.5">
+          <label class="block font-medium m3-text-variant">事件名称 *</label>
+          <input type="text" id="form-title" required placeholder="如：相恋纪念日、考研初试、妈妈生日" class="w-full m3-surface-high border m3-border-outline rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--md-sys-color-primary)] transition-all">
         </div>
 
-        <!-- Date Type: Solar vs Lunar -->
-        <div class="space-y-1">
-          <div class="flex justify-between items-center">
-            <label class="block uppercase tracking-wider text-neutral-400">日期类型 / CALENDAR TYPE</label>
-            <div class="flex gap-2">
-              <button type="button" onclick="setCalendarType('solar')" id="btn-type-solar" class="px-2 py-0.5 border border-white text-white font-bold text-[11px]">公历 (SOLAR)</button>
-              <button type="button" onclick="setCalendarType('lunar')" id="btn-type-lunar" class="px-2 py-0.5 border border-neutral-700 text-neutral-400 text-[11px]">农历 (LUNAR)</button>
-            </div>
+        <!-- M3 Segmented Buttons: Solar vs Lunar -->
+        <div class="space-y-2">
+          <label class="block font-medium m3-text-variant">历法选择</label>
+          <div class="grid grid-cols-2 p-1 rounded-2xl m3-surface-high border m3-border-outline text-xs">
+            <button type="button" onclick="setCalendarType('solar')" id="btn-type-solar" class="py-2 rounded-xl font-bold transition-all m3-primary shadow-sm">
+              ☀️ 公历 (阳历)
+            </button>
+            <button type="button" onclick="setCalendarType('lunar')" id="btn-type-lunar" class="py-2 rounded-xl font-medium m3-text-variant transition-all hover:opacity-80">
+              🌙 农历 (阴历)
+            </button>
           </div>
 
           <!-- Solar Date Input -->
-          <div id="solar-input-box" class="space-y-1">
-            <div class="flex justify-between items-center text-[10px] text-neutral-500">
+          <div id="solar-input-box" class="space-y-1.5 pt-1">
+            <div class="flex justify-between items-center text-[11px] m3-text-variant">
               <span>选择公历年月日</span>
-              <button type="button" onclick="setFormDateToday()" class="hover:text-white underline">SET TODAY</button>
+              <button type="button" onclick="setFormDateToday()" class="text-[var(--md-sys-color-primary)] font-bold hover:underline">设为今天</button>
             </div>
-            <input type="date" id="form-date" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-sm text-white focus:outline-none focus:border-white transition-colors">
+            <input type="date" id="form-date" class="w-full m3-surface-high border m3-border-outline rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--md-sys-color-primary)]">
           </div>
 
           <!-- Lunar Date Input -->
-          <div id="lunar-input-box" class="space-y-2 hidden p-3 border border-neutral-800 bg-neutral-900/50">
-            <div class="text-[10px] text-neutral-400">选择中国农历月日（每年自动推算下一个公历对应日）：</div>
-            <div class="grid grid-cols-2 gap-2">
-              <select id="form-lunar-month" class="w-full bg-neutral-900 border border-neutral-700 p-2 text-xs text-white">
+          <div id="lunar-input-box" class="space-y-2 hidden p-3 rounded-2xl m3-surface-container border m3-border-outline">
+            <div class="text-[11px] m3-text-variant leading-relaxed">
+              选择传统中国农历月份与初日（系统将每年自动推算对应的下一个公历倒数日）：
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <select id="form-lunar-month" class="w-full m3-surface-high border m3-border-outline rounded-xl p-2.5 text-xs focus:outline-none">
                 <option value="1">正月 (一月)</option>
                 <option value="2">二月</option>
                 <option value="3">三月</option>
@@ -178,7 +384,7 @@
                 <option value="11">冬月 (十一月)</option>
                 <option value="12">腊月 (十二月)</option>
               </select>
-              <select id="form-lunar-day" class="w-full bg-neutral-900 border border-neutral-700 p-2 text-xs text-white">
+              <select id="form-lunar-day" class="w-full m3-surface-high border m3-border-outline rounded-xl p-2.5 text-xs focus:outline-none">
                 <!-- 1 to 30 injected by JS -->
               </select>
             </div>
@@ -187,97 +393,100 @@
 
         <!-- Mode & Category -->
         <div class="grid grid-cols-2 gap-3">
-          <div class="space-y-1">
-            <label class="block uppercase tracking-wider text-neutral-400">计算模式 / MODE</label>
-            <select id="form-mode" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-xs text-white focus:outline-none focus:border-white">
-              <option value="auto">AUTO (自动判断)</option>
-              <option value="since">正数 (已过去天数)</option>
-              <option value="left">倒数 (距离还有天数)</option>
+          <div class="space-y-1.5">
+            <label class="block font-medium m3-text-variant">计算模式</label>
+            <select id="form-mode" class="w-full m3-surface-high border m3-border-outline rounded-xl p-2.5 text-xs focus:outline-none">
+              <option value="auto">智能判断 (自动)</option>
+              <option value="since">正数累积 (已过去天数)</option>
+              <option value="left">倒数计时 (距离还有天数)</option>
             </select>
           </div>
 
-          <div class="space-y-1">
+          <div class="space-y-1.5">
             <div class="flex justify-between">
-              <label class="block uppercase tracking-wider text-neutral-400">分类 / CATEGORY</label>
-              <button type="button" onclick="openCategoryManager()" class="text-[10px] text-neutral-400 hover:text-white underline">+ 管理</button>
+              <label class="block font-medium m3-text-variant">分类类别</label>
+              <button type="button" onclick="openCategoryManager()" class="text-[11px] text-[var(--md-sys-color-primary)] font-bold hover:underline">+ 管理</button>
             </div>
-            <select id="form-category" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-xs text-white focus:outline-none focus:border-white">
+            <select id="form-category" class="w-full m3-surface-high border m3-border-outline rounded-xl p-2.5 text-xs focus:outline-none">
               <!-- Dynamically populated from categories -->
             </select>
           </div>
         </div>
 
         <!-- Repeat Rule -->
-        <div class="space-y-1">
-          <label class="block uppercase tracking-wider text-neutral-400">重复周期 / REPEAT CYCLE</label>
-          <select id="form-repeat" class="w-full bg-neutral-900 border border-neutral-700 p-2.5 text-xs text-white focus:outline-none focus:border-white">
-            <option value="none">不重复 (ONE TIME)</option>
-            <option value="yearly">每年重复 (YEARLY - 生日/周年纪念)</option>
-            <option value="monthly">每月重复 (MONTHLY - 发薪/还款)</option>
-            <option value="weekly">每周重复 (WEEKLY)</option>
+        <div class="space-y-1.5">
+          <label class="block font-medium m3-text-variant">周期重复</label>
+          <select id="form-repeat" class="w-full m3-surface-high border m3-border-outline rounded-xl p-2.5 text-xs focus:outline-none">
+            <option value="none">不重复 (单次大事件)</option>
+            <option value="yearly">每年重复 (生日 / 周年纪念)</option>
+            <option value="monthly">每月重复 (还款 / 发薪日)</option>
+            <option value="weekly">每周重复</option>
           </select>
         </div>
 
-        <!-- Pin to Top Toggle -->
-        <div class="flex items-center justify-between p-3 border border-neutral-800 bg-neutral-900/50">
+        <!-- M3 Switch: Pin to Hero -->
+        <div class="flex items-center justify-between p-3.5 rounded-2xl m3-surface-container border m3-border-outline">
           <div>
-            <div class="font-bold uppercase tracking-wider">置顶到主看板 / PIN TO HERO</div>
-            <div class="text-[10px] text-neutral-400 mt-0.5">作为顶部巨型数字焦点卡片展示</div>
+            <div class="font-bold text-xs">置顶为巨幅主看板</div>
+            <div class="text-[11px] m3-text-variant mt-0.5">作为顶部焦点大卡片，并自动同步到安卓桌面小组件</div>
           </div>
-          <input type="checkbox" id="form-pinned" class="w-4 h-4 accent-white rounded-none cursor-pointer">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="form-pinned" class="sr-only peer">
+            <div class="w-11 h-6 bg-gray-400/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--md-sys-color-primary)]"></div>
+          </label>
         </div>
 
         <!-- Notes -->
-        <div class="space-y-1">
-          <label class="block uppercase tracking-wider text-neutral-400">备注说明 / NOTES (可选)</label>
-          <textarea id="form-notes" rows="2" placeholder="记录一些细节、约定或誓言..." class="w-full bg-neutral-900 border border-neutral-700 p-2 text-xs text-white focus:outline-none focus:border-white transition-colors"></textarea>
+        <div class="space-y-1.5">
+          <label class="block font-medium m3-text-variant">誓言与备注 (可选)</label>
+          <textarea id="form-notes" rows="2" placeholder="记录一些细节、誓言或心愿约定..." class="w-full m3-surface-high border m3-border-outline rounded-xl p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[var(--md-sys-color-primary)]"></textarea>
         </div>
 
-        <!-- ================= 纪念卡册 (Memory Scrapbook - Max 3 Photos) ================= -->
-        <div class="border-t border-neutral-800 pt-4 space-y-3">
+        <!-- ================= 📸 纪念卡册 (Memory Scrapbook) ================= -->
+        <div class="p-3.5 rounded-2xl m3-surface-container border m3-border-outline space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <span class="font-bold uppercase tracking-wider flex items-center gap-1.5 text-sm">
+              <span class="font-bold flex items-center gap-1.5 text-xs">
                 <span>📸 纪念卡册</span>
-                <span class="text-[10px] text-neutral-400">(上限3张照片)</span>
+                <span class="text-[10px] m3-text-variant">(上限3张照片)</span>
               </span>
-              <p class="text-[10px] text-neutral-400 mt-0.5">记录那一天的现场照片，支持贴纸遮脸与心情备注</p>
+              <p class="text-[10px] m3-text-variant mt-0.5">保存那天的现场照片，支持贴纸遮脸 P 图与回忆备注</p>
             </div>
             
             <!-- Quality Choice -->
-            <div class="flex items-center gap-1 text-[10px]">
-              <label class="flex items-center gap-1 cursor-pointer text-neutral-400 hover:text-white">
-                <input type="radio" name="photo-quality" value="compressed" checked class="accent-white">
-                <span>压缩标清 (推荐)</span>
+            <div class="flex items-center gap-2 text-[10px]">
+              <label class="flex items-center gap-1 cursor-pointer m3-text-variant">
+                <input type="radio" name="photo-quality" value="compressed" checked class="accent-[var(--md-sys-color-primary)]">
+                <span>压缩标清</span>
               </label>
-              <label class="flex items-center gap-1 cursor-pointer text-neutral-400 hover:text-white ml-2">
-                <input type="radio" name="photo-quality" value="hd" class="accent-white">
+              <label class="flex items-center gap-1 cursor-pointer m3-text-variant ml-1">
+                <input type="radio" name="photo-quality" value="hd" class="accent-[var(--md-sys-color-primary)]">
                 <span>原图高清</span>
               </label>
             </div>
           </div>
 
           <!-- Photo Container Cards -->
-          <div id="scrapbook-container" class="space-y-3">
+          <div id="scrapbook-container" class="space-y-2.5">
             <!-- Injected by renderScrapbookForm() -->
           </div>
 
           <!-- Add Photo Button -->
           <div id="add-photo-btn-box">
-            <label class="w-full py-2.5 border border-dashed border-neutral-700 hover:border-white text-neutral-400 hover:text-white font-mono text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors bg-neutral-900/30">
-              <span>+ 添加照片 (最多3张)</span>
+            <label class="w-full py-3 border-2 border-dashed m3-border-outline rounded-xl m3-text-variant hover:border-[var(--md-sys-color-primary)] text-xs flex items-center justify-center gap-2 cursor-pointer transition-colors m3-surface-high">
+              <span>+ 添加现场照片 (最多3张)</span>
               <input type="file" id="photo-file-input" accept="image/*" onchange="handlePhotoUpload(event)" class="hidden">
             </label>
           </div>
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center gap-3 pt-3 border-t border-neutral-800">
-          <button type="button" onclick="closeModal()" class="flex-1 py-3 border border-neutral-700 text-neutral-300 font-bold tracking-wider uppercase hover:bg-neutral-800 transition-colors">
-            CANCEL
+        <div class="flex items-center gap-3 pt-2">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-full border m3-border-outline m3-surface-high font-semibold text-xs m3-pressable">
+            取消
           </button>
-          <button type="submit" class="flex-1 py-3 bg-white text-black font-bold tracking-wider uppercase hover:bg-neutral-200 transition-colors">
-            SAVE RECORD
+          <button type="submit" class="flex-1 py-3 rounded-full m3-primary font-bold text-xs shadow-md m3-pressable">
+            保存记录
           </button>
         </div>
 
@@ -285,147 +494,209 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: STICKER / FACE-COVERING P图编辑器 ==================== -->
-  <div id="sticker-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-60 flex flex-col justify-between p-3 sm:p-6 hidden">
-    <div class="w-full max-w-xl mx-auto flex-1 flex flex-col justify-between space-y-3">
-      
-      <!-- Top Bar -->
-      <div class="flex justify-between items-center border-b border-neutral-700 pb-2 text-white">
-        <div>
-          <span class="text-[10px] font-mono-swiss tracking-widest uppercase text-neutral-400">PHOTO STICKER STUDIO</span>
-          <h3 class="text-base font-bold">表情贴纸 / 遮脸神器</h3>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="closeStickerModal()" class="px-3 py-1 border border-neutral-700 text-xs font-mono uppercase hover:bg-neutral-800">
-            取消
-          </button>
-          <button onclick="saveStickerResult()" class="px-3.5 py-1 bg-white text-black text-xs font-mono font-bold uppercase hover:bg-neutral-200">
-            保存应用
-          </button>
-        </div>
-      </div>
-
-      <!-- Canvas Area -->
-      <div class="flex-1 flex items-center justify-center overflow-hidden bg-neutral-950 border border-neutral-800 relative rounded-lg p-2" id="canvas-wrapper">
-        <canvas id="sticker-canvas" class="max-h-[60vh] max-w-full touch-none shadow-lg cursor-crosshair"></canvas>
-      </div>
-
-      <!-- Controls & Sliders -->
-      <div class="space-y-2 bg-[#181818] p-3 rounded-lg border border-neutral-800 text-white text-xs font-mono-swiss">
-        <!-- Scale & Action Row -->
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-2 flex-1">
-            <span class="text-[10px] text-neutral-400 uppercase whitespace-nowrap">贴纸大小:</span>
-            <input type="range" id="sticker-size-slider" min="0.3" max="2.5" step="0.05" value="1.0" oninput="updateActiveStickerSize(this.value)" class="w-full accent-white">
-          </div>
-          <button onclick="deleteActiveSticker()" class="px-2.5 py-1 border border-red-800 text-red-400 text-[11px] hover:bg-red-950/40 uppercase">
-            删除贴纸
-          </button>
-          <button onclick="clearAllStickers()" class="px-2.5 py-1 border border-neutral-700 text-neutral-400 text-[11px] hover:bg-neutral-800 uppercase">
-            清空
-          </button>
-        </div>
-
-        <p class="text-[10px] text-neutral-400">💡 提示：点击下方贴纸添加到照片上，按住可拖动移动位置或遮住人脸</p>
-
-        <!-- Sticker Tray (20+ Fun & Mask Stickers) -->
-        <div class="flex gap-2 overflow-x-auto py-2 border-t border-neutral-800 text-2xl no-scrollbar select-none" id="sticker-tray">
-          <!-- Injected by JS: 🕶️ 😷 🐱 🐶 🐻 🐼 🐰 🦊 👑 🎀 🌸 💖 🌟 🎩 🥸 🍓 🌈 🎈 🎭 🔥 🥑 -->
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ==================== MODAL: DETAIL & MEMORY ALBUM ==================== -->
-  <div id="detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
-    <div class="bg-[#121212] text-white border-t sm:border border-white w-full max-w-lg p-6 max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl transition-all" id="detail-container">
+  <!-- ==================== M3 BOTTOM SHEET: DETAIL & ALBUM ==================== -->
+  <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+    <div class="m3-surface-low text-current w-full max-w-lg rounded-t-[28px] p-6 max-h-[92vh] overflow-y-auto space-y-4 m3-elevation-3 bottom-sheet-content border-t m3-border-outline" id="detail-container">
       <div id="detail-content">
         <!-- Injected by openDetailModal() -->
       </div>
     </div>
   </div>
 
-  <!-- ==================== MODAL: SHARE POSTER GENERATOR ==================== -->
-  <div id="poster-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-60 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#121212] text-white border border-white w-full max-w-sm p-5 space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
-        <h3 class="text-sm font-bold font-mono-swiss uppercase">极简海报 // 朋友圈分享</h3>
-        <button onclick="closePosterModal()" class="font-mono text-xs px-2 py-0.5 border border-neutral-700">ESC</button>
+  <!-- ==================== M3 STICKER / FACE-COVERING STUDIO ==================== -->
+  <div id="sticker-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-60 flex flex-col justify-between p-3 sm:p-6 hidden">
+    <div class="w-full max-w-xl mx-auto flex-1 flex flex-col justify-between space-y-3">
+      
+      <!-- Top Bar -->
+      <div class="flex justify-between items-center text-white pb-2 border-b border-gray-700">
+        <div>
+          <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider text-purple-300">PHOTO STICKER STUDIO</span>
+          <h3 class="text-base font-bold">表情贴纸 · 遮脸微调神器</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="closeStickerModal()" class="px-3 py-1.5 rounded-full bg-white/10 text-xs font-medium hover:bg-white/20">
+            取消
+          </button>
+          <button onclick="saveStickerResult()" class="px-4 py-1.5 rounded-full bg-purple-500 text-white text-xs font-bold shadow-md hover:bg-purple-400">
+            保存应用
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas Area -->
+      <div class="flex-1 flex items-center justify-center overflow-hidden bg-black/40 border border-gray-800 relative rounded-2xl p-2" id="canvas-wrapper">
+        <canvas id="sticker-canvas" class="max-h-[55vh] max-w-full touch-none shadow-xl rounded-lg cursor-crosshair"></canvas>
+      </div>
+
+      <!-- Controls & Sliders -->
+      <div class="space-y-3 bg-[#1E1F25] p-3.5 rounded-2xl border border-gray-800 text-white text-xs">
+        
+        <!-- Size & Rotation Sliders -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-gray-400 whitespace-nowrap">缩放大小:</span>
+            <input type="range" id="sticker-size-slider" min="0.3" max="2.5" step="0.05" value="1.0" oninput="updateActiveStickerSize(this.value)" class="w-full accent-purple-400">
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-gray-400 whitespace-nowrap">旋转角度:</span>
+            <input type="range" id="sticker-rot-slider" min="-180" max="180" step="5" value="0" oninput="updateActiveStickerRotation(this.value)" class="w-full accent-purple-400">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-[11px] pt-1 border-t border-gray-800">
+          <span class="text-[10px] text-gray-400">💡 提示：点击贴纸添加后可在照片上任意拖拽移动遮盖人脸</span>
+          <div class="flex gap-2">
+            <button onclick="deleteActiveSticker()" class="px-2.5 py-1 rounded-lg bg-red-900/50 text-red-300 hover:bg-red-800">
+              删除选中
+            </button>
+            <button onclick="clearAllStickers()" class="px-2.5 py-1 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700">
+              清空贴纸
+            </button>
+          </div>
+        </div>
+
+        <!-- Sticker Tray (20+ Fun & Mask Stickers) -->
+        <div class="flex gap-2 overflow-x-auto py-2 border-t border-gray-800 text-2xl no-scrollbar select-none" id="sticker-tray">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== M3 SHARE POSTER GENERATOR ==================== -->
+  <div id="poster-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-60 flex items-center justify-center p-4 hidden">
+    <div class="m3-surface-low text-current w-full max-w-sm rounded-[28px] p-5 space-y-4 m3-elevation-3 border m3-border-outline">
+      <div class="flex justify-between items-center pb-2 border-b m3-border-outline">
+        <div>
+          <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider m3-text-variant">POSTER MAKER</span>
+          <h3 class="text-base font-bold">精美海报 · 朋友圈分享</h3>
+        </div>
+        <button onclick="closePosterModal()" class="w-7 h-7 rounded-full m3-surface-high flex items-center justify-center text-xs">✕</button>
+      </div>
+
+      <!-- Poster Theme Selector (M3 Style vs Swiss Style) -->
+      <div class="grid grid-cols-2 p-1 rounded-2xl m3-surface-high border m3-border-outline text-xs">
+        <button type="button" onclick="setPosterTheme('m3')" id="btn-poster-m3" class="py-1.5 rounded-xl font-bold transition-all m3-primary">
+          ✨ Material You 柔色
+        </button>
+        <button type="button" onclick="setPosterTheme('swiss')" id="btn-poster-swiss" class="py-1.5 rounded-xl font-medium m3-text-variant transition-all">
+          📐 瑞士极简黑白
+        </button>
       </div>
 
       <!-- Preview Canvas -->
-      <div class="flex justify-center bg-black p-2 border border-neutral-800">
-        <canvas id="poster-canvas" class="max-h-[60vh] max-w-full shadow-md"></canvas>
+      <div class="flex justify-center bg-black/10 p-2 rounded-2xl border m3-border-outline">
+        <canvas id="poster-canvas" class="max-h-[50vh] max-w-full rounded-xl shadow-md"></canvas>
       </div>
 
-      <div class="space-y-2 font-mono-swiss text-xs">
-        <button onclick="downloadPoster()" class="w-full py-2.5 bg-white text-black font-bold uppercase hover:bg-neutral-200 flex items-center justify-center gap-1.5">
-          <span>↓</span>
-          <span>保存海报到相册 (DOWNLOAD)</span>
+      <div class="space-y-2 text-xs">
+        <button onclick="downloadPoster()" class="w-full py-3 rounded-full m3-primary font-bold shadow-md hover:opacity-95 flex items-center justify-center gap-2 m3-pressable">
+          <span>📥</span>
+          <span>保存高清海报到相册</span>
         </button>
-        <p class="text-[10px] text-neutral-400 text-center">手机上长按上方图片亦可直接保存或发送给朋友</p>
+        <p class="text-[10px] m3-text-variant text-center">手机上长按上方图片亦可直接保存或发送给朋友</p>
       </div>
     </div>
   </div>
 
-  <!-- ==================== MODAL: CATEGORY MANAGER ==================== -->
-  <div id="category-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#121212] text-white border border-white w-full max-w-md p-6 space-y-4 shadow-2xl" id="category-container">
-      <div class="flex justify-between items-center border-b-2 border-white pb-3">
-        <h3 class="text-base font-black font-mono-swiss tracking-tight uppercase">CATEGORY MANAGER // 分类管理</h3>
-        <button onclick="closeCategoryModal()" class="font-mono text-xs px-2 py-1 border border-neutral-700 uppercase">ESC</button>
+  <!-- ==================== M3 CATEGORY MANAGER ==================== -->
+  <div id="category-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+    <div class="m3-surface-low text-current w-full max-w-md rounded-t-[28px] p-6 space-y-4 m3-elevation-3 bottom-sheet-content border-t m3-border-outline">
+      
+      <!-- Drag Handle -->
+      <div class="w-10 h-1.5 rounded-full bg-gray-400/40 mx-auto -mt-2 mb-2 cursor-pointer" onclick="closeCategoryModal()"></div>
+
+      <div class="flex justify-between items-center pb-2 border-b m3-border-outline">
+        <div>
+          <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider m3-text-variant">SETTINGS</span>
+          <h3 class="text-base font-bold">分类管理</h3>
+        </div>
+        <button onclick="closeCategoryModal()" class="w-7 h-7 rounded-full m3-surface-high flex items-center justify-center text-xs">✕</button>
       </div>
 
       <!-- Add New Category -->
-      <div class="flex gap-2 font-mono-swiss text-xs">
-        <input type="text" id="new-cat-input" placeholder="输入新分类名称 (如：旅行计划、宠物日常)" class="flex-1 bg-neutral-900 border border-neutral-700 p-2 text-white focus:outline-none focus:border-white">
-        <button onclick="addCustomCategory()" class="px-4 py-2 bg-white text-black font-bold uppercase hover:bg-neutral-200">
+      <div class="flex gap-2 text-xs">
+        <input type="text" id="new-cat-input" placeholder="输入新分类名称 (如：旅行计划、宠物日常)" class="flex-1 m3-surface-high border m3-border-outline rounded-xl p-2.5 text-current focus:outline-none focus:ring-2 focus:ring-[var(--md-sys-color-primary)]">
+        <button onclick="addCustomCategory()" class="px-4 py-2.5 rounded-xl m3-primary font-bold shadow-sm m3-pressable">
           添加
         </button>
       </div>
 
       <!-- Category List -->
-      <div class="space-y-1.5 max-h-60 overflow-y-auto pt-2" id="category-manage-list">
+      <div class="space-y-2 max-h-56 overflow-y-auto pt-2" id="category-manage-list">
         <!-- Rendered by JS -->
       </div>
     </div>
   </div>
 
-  <!-- ==================== MODAL: DATA BACKUP & RESTORE ==================== -->
-  <div id="backup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#121212] text-white border border-white w-full max-w-md p-6 space-y-4 shadow-2xl" id="backup-container">
-      <div class="flex justify-between items-center border-b-2 border-white pb-3">
-        <h3 class="text-lg font-black font-mono-swiss tracking-tight uppercase">DATA ARCHIVE // 备份</h3>
-        <button onclick="closeBackupModal()" class="font-mono text-xs px-2 py-1 border border-neutral-700 uppercase">ESC</button>
-      </div>
+  <!-- ==================== M3 DATA BACKUP & RESTORE ==================== -->
+  <div id="backup-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center hidden">
+    <div class="m3-surface-low text-current w-full max-w-md rounded-t-[28px] p-6 space-y-4 m3-elevation-3 bottom-sheet-content border-t m3-border-outline">
       
-      <p class="text-xs text-neutral-400 leading-relaxed font-mono-swiss">
-        你的所有数据完全保存在当前设备的本地存储中，不会上传到任何第三方服务器。你可以随时导出 JSON 备份文件，换手机或迁移时一键恢复。
-      </p>
+      <!-- Drag Handle -->
+      <div class="w-10 h-1.5 rounded-full bg-gray-400/40 mx-auto -mt-2 mb-2 cursor-pointer" onclick="closeBackupModal()"></div>
 
-      <div class="space-y-2 pt-2 font-mono-swiss text-xs">
-        <button onclick="exportData()" class="w-full py-3 bg-white text-black font-bold tracking-wider uppercase hover:bg-neutral-200 flex items-center justify-center gap-2">
-          <span>↓</span>
-          <span>EXPORT BACKUP (导出 JSON 备份)</span>
+      <div class="flex justify-between items-center pb-2 border-b m3-border-outline">
+        <div>
+          <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider m3-text-variant">DATA VAULT</span>
+          <h3 class="text-base font-bold">数据备份与偏好设置</h3>
+        </div>
+        <button onclick="closeBackupModal()" class="w-7 h-7 rounded-full m3-surface-high flex items-center justify-center text-xs">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        
+        <!-- Palette Chooser -->
+        <div class="p-3.5 rounded-2xl m3-surface-container border m3-border-outline space-y-2">
+          <div class="font-bold text-xs flex items-center justify-between">
+            <span>Material You 种子调色盘</span>
+            <span class="text-[10px] m3-text-variant" id="active-palette-name">灵动紫</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2 pt-1">
+            <button onclick="setPalette('violet')" class="py-2 rounded-xl text-center font-bold text-[11px] bg-[#6750A4] text-white shadow-sm hover:scale-105 transition-transform">
+              紫色
+            </button>
+            <button onclick="setPalette('blue')" class="py-2 rounded-xl text-center font-bold text-[11px] bg-[#006399] text-white shadow-sm hover:scale-105 transition-transform">
+              海蓝
+            </button>
+            <button onclick="setPalette('green')" class="py-2 rounded-xl text-center font-bold text-[11px] bg-[#006D44] text-white shadow-sm hover:scale-105 transition-transform">
+              森绿
+            </button>
+            <button onclick="setPalette('amber')" class="py-2 rounded-xl text-center font-bold text-[11px] bg-[#8C4E00] text-white shadow-sm hover:scale-105 transition-transform">
+              暖杏
+            </button>
+          </div>
+        </div>
+
+        <!-- Export & Import -->
+        <div class="p-3.5 rounded-2xl m3-surface-container border m3-border-outline space-y-2.5">
+          <div class="font-bold text-xs">本地数据备份 (100% 离线)</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="exportData()" class="py-2.5 rounded-xl m3-primary font-bold shadow-sm m3-pressable flex items-center justify-center gap-1.5">
+              <span>📤</span>
+              <span>导出 JSON 备份</span>
+            </button>
+            <label class="py-2.5 rounded-xl m3-surface-high border m3-border-outline font-bold text-center cursor-pointer m3-pressable flex items-center justify-center gap-1.5">
+              <span>📥</span>
+              <span>导入备份文件</span>
+              <input type="file" id="import-file" accept=".json" onchange="importData(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <button onclick="resetDefaults()" class="w-full py-2.5 rounded-xl text-red-500 font-semibold hover:bg-red-500/10 transition-colors">
+          恢复默认预设演示数据
         </button>
 
-        <label class="w-full py-3 border border-neutral-700 text-neutral-300 font-bold tracking-wider uppercase hover:bg-neutral-800 flex items-center justify-center gap-2 cursor-pointer transition-colors">
-          <span>↑</span>
-          <span>IMPORT BACKUP (恢复已有备份)</span>
-          <input type="file" id="import-file" accept=".json" onchange="importData(event)" class="hidden">
-        </label>
-
-        <button onclick="resetDefaults()" class="w-full py-2.5 text-red-400 hover:text-red-300 text-center font-mono text-[11px] uppercase pt-2">
-          [RESET ALL DATA / 重置为初始示例]
-        </button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== APPLICATION CORE LOGIC ==================== -->
+  <!-- ==================== Core JavaScript Logic ==================== -->
   <script>
-    // 15+ Cute, Fun, and Face-Covering Stickers
+    // 20+ Cute & Face-Covering Mask Stickers
     const STICKER_LIST = [
       { id: 'sunglasses', icon: '🕶️', label: '酷黑墨镜' },
       { id: 'mask', icon: '😷', label: '纯白口罩' },
@@ -449,7 +720,7 @@
       { id: 'fire', icon: '🔥', label: '热爱之火' }
     ];
 
-    // Standard Chinese Lunar Calendar Algorithm (1900-2100)
+    // Chinese Lunar Calendar Algorithm (1900-2100)
     const LUNAR_INFO = [
       0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
       0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
@@ -467,6 +738,10 @@
       0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
       0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0
     ];
+
+    const GAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+    const ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+    const ANIMALS = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
 
     function getLunarYearDays(y) {
       let sum = 348;
@@ -491,7 +766,6 @@
       return (LUNAR_INFO[y - 1900] & (0x10000 >> m)) ? 30 : 29;
     }
 
-    // Convert Solar to Lunar
     function solarToLunar(solarDate) {
       let offset = (Date.UTC(solarDate.getFullYear(), solarDate.getMonth(), solarDate.getDate()) - Date.UTC(1900, 0, 31)) / 86400000;
       let y = 1900;
@@ -518,22 +792,25 @@
         if (isLeap && m === (leap + 1)) isLeap = false;
       }
       let d = offset + 1;
+      
       const lunarMonths = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊"];
       const lunarDays = ["初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
         "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
         "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"];
+      
+      const ganZhi = GAN[(y - 4) % 10] + ZHI[(y - 4) % 12];
+      const animal = ANIMALS[(y - 4) % 12];
+
       return {
-        lunarYear: y,
-        lunarMonth: m,
-        lunarDay: d,
-        isLeap: isLeap,
-        monthStr: (isLeap ? "闰" : "") + lunarMonths[m - 1] + "月",
-        dayStr: lunarDays[d - 1],
-        str: `${(isLeap ? "闰" : "") + lunarMonths[m - 1]}月${lunarDays[d - 1]}`
+        year: y,
+        month: m,
+        day: d,
+        isLeap,
+        str: `${isLeap ? '闰' : ''}${lunarMonths[m - 1]}月${lunarDays[d - 1]}`,
+        fullStr: `${ganZhi}${animal}年 ${isLeap ? '闰' : ''}${lunarMonths[m - 1]}月${lunarDays[d - 1]}`
       };
     }
 
-    // Convert Lunar date to Solar Date for a given solar year
     function lunarToSolar(lunarYear, lunarMonth, lunarDay) {
       let offset = 0;
       for (let i = 1900; i < lunarYear; i++) {
@@ -542,7 +819,7 @@
       let leap = getLeapMonth(lunarYear);
       for (let i = 1; i < lunarMonth; i++) {
         offset += getLunarMonthDays(lunarYear, i);
-        if (leap > 0 && i === leap) {
+        if (leap === i) {
           offset += getLeapDays(lunarYear);
         }
       }
@@ -552,30 +829,33 @@
       return base;
     }
 
-    // Initial state
+    // App State
     const DEFAULT_CATEGORIES = ['纪念日', '生日', '学业', '生活', '节日', '工作'];
     let categories = [...DEFAULT_CATEGORIES];
     let events = [];
     let currentCategory = 'ALL';
     let searchQuery = '';
     let isDark = true;
-    let currentCalendarType = 'solar'; // 'solar' | 'lunar'
+    let currentPalette = 'violet'; // 'violet' | 'blue' | 'green' | 'amber'
+    let currentCalendarType = 'solar';
+    let currentPosterTheme = 'm3'; // 'm3' | 'swiss'
+    let posterEventId = null;
 
-    // Form scrapbook state (temporary photos while editing)
+    // Form Scrapbook State
     let formPhotos = [];
 
-    // Sticker editor state
+    // Sticker Editor State
     let stickerActivePhotoIndex = -1;
     let stickerBaseImage = null;
     let stickerCanvas = null;
     let stickerCtx = null;
-    let placedStickers = []; // { id, icon, x, y, size }
+    let placedStickers = []; // { id, icon, x, y, size, rotation }
     let activeStickerIndex = -1;
     let isDraggingSticker = false;
     let dragStartX = 0;
     let dragStartY = 0;
 
-    // Load initial data
+    // Initialization
     function initData() {
       try {
         const storedCats = localStorage.getItem('SHIYUE_CATEGORIES');
@@ -637,7 +917,15 @@
         }
 
         const storedTheme = localStorage.getItem('SHIYUE_THEME');
-        isDark = storedTheme !== 'light';
+        if (storedTheme) {
+          isDark = storedTheme === 'dark';
+        }
+
+        const storedPalette = localStorage.getItem('SHIYUE_PALETTE');
+        if (storedPalette) {
+          currentPalette = storedPalette;
+        }
+
       } catch (e) {
         console.error(e);
       }
@@ -647,6 +935,7 @@
       initStickerTray();
       renderAll();
       updateLiveDate();
+      bindCanvasTouchEvents();
     }
 
     function saveToStorage() {
@@ -662,7 +951,7 @@
       daySelect.innerHTML = lunarDays.map((d, idx) => `<option value="${idx + 1}">${d}</option>`).join('');
     }
 
-    // Days calculation helper
+    // Days Calculation
     function calculateDays(event) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -671,18 +960,16 @@
       let displayLunarStr = '';
 
       if (event.calendarType === 'lunar' && event.lunarMonth && event.lunarDay) {
-        // Calculate solar target for current lunar year
         let solarThisYear = lunarToSolar(today.getFullYear(), event.lunarMonth, event.lunarDay);
         solarThisYear.setHours(0, 0, 0, 0);
         if (solarThisYear < today && event.mode !== 'since') {
-          // Next year lunar date
           target = lunarToSolar(today.getFullYear() + 1, event.lunarMonth, event.lunarDay);
         } else {
           target = solarThisYear;
         }
         displayLunarStr = `农历 ${event.lunarMonth}月${event.lunarDay}日`;
       } else {
-        const parts = event.date.split('-');
+        const parts = (event.date || '2026-01-01').split('-');
         target = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
         target.setHours(0, 0, 0, 0);
 
@@ -708,12 +995,24 @@
       const absDays = Math.abs(diffDays);
       const isSince = event.mode === 'since' || (event.mode === 'auto' && diffDays < 0);
 
+      let badgeText = '';
+      if (diffDays === 0) {
+        badgeText = '今天 TODAY';
+      } else if (diffDays === 1) {
+        badgeText = '明天 TOMORROW';
+      } else if (isSince) {
+        badgeText = `已过去 ${absDays} 天`;
+      } else {
+        badgeText = `还有 ${absDays} 天`;
+      }
+
       return {
         diffDays,
         absDays,
         isSince,
+        badgeText,
         label: isSince ? 'DAYS SINCE' : 'DAYS LEFT',
-        subLabel: isSince ? '正数日 · 已过去' : '倒数日 · 距离还有',
+        subLabel: isSince ? '正数日 · 已走过' : '倒数日 · 距离还有',
         targetDateStr: formatDateStr(target),
         originalDateStr: event.date || `${event.lunarMonth}月${event.lunarDay}日`,
         displayLunarStr
@@ -723,23 +1022,28 @@
     function formatDateStr(d) {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, '0');
-      const date = String(d.getDate()).padStart(2, '0');
-      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-      return `${y}.${m}.${date} // ${dayNames[d.getDay()]}`;
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}.${m}.${day}`;
     }
 
     function updateLiveDate() {
       const now = new Date();
-      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, '0');
-      const d = String(now.getDate()).padStart(2, '0');
+      const daysOfWeek = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      const dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} ${daysOfWeek[now.getDay()]}`;
+      const liveDateEl = document.getElementById('live-date');
+      if (liveDateEl) liveDateEl.innerText = dateStr;
+
       const lunar = solarToLunar(now);
-      document.getElementById('live-date').textContent = `${y}.${m}.${d} // ${dayNames[now.getDay()]}`;
-      document.getElementById('header-lunar').textContent = `农历${lunar.str} // 时光印记`;
+      const liveLunarEl = document.getElementById('live-lunar');
+      if (liveLunarEl) liveLunarEl.innerText = lunar.fullStr;
+
+      const headerLunarFull = document.getElementById('header-lunar-full');
+      if (headerLunarFull) {
+        headerLunarFull.innerText = `${lunar.fullStr} · 瑞士极简 × Material You`;
+      }
     }
 
-    // Theme Switch
+    // Theme & Palette Engine
     function toggleTheme() {
       isDark = !isDark;
       localStorage.setItem('SHIYUE_THEME', isDark ? 'dark' : 'light');
@@ -748,46 +1052,68 @@
 
     function applyTheme() {
       const html = document.documentElement;
-      const themeBtnText = document.getElementById('theme-btn-text');
-      const headerBorder = document.getElementById('header-border');
-      const newBtn = document.getElementById('new-btn');
-      const statusDot = document.getElementById('status-dot');
-
+      const themeIcon = document.getElementById('theme-btn-icon');
       if (isDark) {
         html.classList.add('dark');
-        document.body.className = "bg-[#121212] text-[#F4F4F4] transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-white selection:text-black";
-        themeBtnText.textContent = "[DARK]";
-        headerBorder.className = "border-b-2 border-white pb-3 pt-1 transition-colors duration-200";
-        newBtn.className = "px-3.5 py-2 bg-white text-black text-xs font-mono-swiss font-bold tracking-wider uppercase hover:bg-neutral-200 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm";
-        statusDot.className = "w-1.5 h-1.5 bg-white rounded-none";
+        if (themeIcon) themeIcon.innerText = '🌙';
       } else {
         html.classList.remove('dark');
-        document.body.className = "bg-[#F7F7F7] text-[#121212] transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-black selection:text-white";
-        themeBtnText.textContent = "[LIGHT]";
-        headerBorder.className = "border-b-2 border-black pb-3 pt-1 transition-colors duration-200";
-        newBtn.className = "px-3.5 py-2 bg-black text-white text-xs font-mono-swiss font-bold tracking-wider uppercase hover:bg-neutral-800 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm";
-        statusDot.className = "w-1.5 h-1.5 bg-black rounded-none";
+        if (themeIcon) themeIcon.innerText = '☀️';
       }
-      renderTabs();
-      renderHero();
-      renderList();
+      html.setAttribute('data-palette', currentPalette);
+      renderAll();
     }
 
-    // Category Tabs
+    function togglePalette() {
+      const palettes = ['violet', 'blue', 'green', 'amber'];
+      let nextIdx = (palettes.indexOf(currentPalette) + 1) % palettes.length;
+      setPalette(palettes[nextIdx]);
+    }
+
+    function setPalette(p) {
+      currentPalette = p;
+      localStorage.setItem('SHIYUE_PALETTE', p);
+      document.documentElement.setAttribute('data-palette', p);
+      
+      const names = {
+        violet: '灵动紫 (Default)',
+        blue: '晴空海蓝',
+        green: '旷野森绿',
+        amber: '暮光暖杏'
+      };
+      const nameEl = document.getElementById('active-palette-name');
+      if (nameEl) nameEl.innerText = names[p] || p;
+
+      renderAll();
+    }
+
+    // Category Filter Chips
     function renderTabs() {
       const container = document.getElementById('category-tabs');
-      const cats = ['ALL', ...categories];
-      const activeClass = isDark ? 'border-b-2 border-white text-white font-bold' : 'border-b-2 border-black text-black font-bold';
-      const inactiveClass = isDark ? 'text-neutral-500 hover:text-neutral-300' : 'text-neutral-500 hover:text-black';
+      const allCats = ['ALL', ...categories];
 
-      container.innerHTML = cats.map(cat => {
-        const isActive = currentCategory === cat;
-        return `
-          <button onclick="setCategory('${cat}')" class="pb-1 transition-colors tracking-wider whitespace-nowrap ${isActive ? activeClass : inactiveClass}">
-            [${cat}]
-          </button>
-        `;
-      }).join('');
+      container.innerHTML = allCats.map(cat => {
+        const isSelected = currentCategory === cat;
+        const label = cat === 'ALL' ? '全部' : cat;
+        if (isSelected) {
+          return `
+            <button onclick="setCategory('${cat}')" class="px-3.5 py-1.5 rounded-xl m3-primary font-bold text-xs flex items-center gap-1.5 shadow-sm whitespace-nowrap transition-all">
+              <span class="text-[10px]">✓</span>
+              <span>${label}</span>
+            </button>
+          `;
+        } else {
+          return `
+            <button onclick="setCategory('${cat}')" class="px-3.5 py-1.5 rounded-xl m3-surface-low border m3-border-outline font-medium text-xs whitespace-nowrap m3-text-variant hover:opacity-100 transition-all">
+              ${label}
+            </button>
+          `;
+        }
+      }).join('') + `
+        <button onclick="openCategoryManager()" class="px-2.5 py-1.5 rounded-xl m3-surface-high text-xs font-semibold m3-text-variant whitespace-nowrap hover:opacity-100 border border-dashed m3-border-outline">
+          + 管理
+        </button>
+      `;
     }
 
     function setCategory(cat) {
@@ -797,28 +1123,54 @@
     }
 
     function handleSearch(val) {
-      searchQuery = val.trim().toLowerCase();
+      searchQuery = (val || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', !searchQuery);
+      }
       renderList();
     }
 
-    // Render Pinned Hero Card
+    function clearSearch() {
+      const input = document.getElementById('search-input');
+      if (input) input.value = '';
+      handleSearch('');
+    }
+
+    // Get Category Icon & Soft Tint
+    function getCategoryBadge(cat) {
+      const map = {
+        '纪念日': { icon: '❤️', label: '纪念日' },
+        '生日': { icon: '🎂', label: '生日' },
+        '学业': { icon: '🎓', label: '学业' },
+        '生活': { icon: '🌿', label: '生活' },
+        '节日': { icon: '🎉', label: '节日' },
+        '工作': { icon: '💼', label: '工作' }
+      };
+      return map[cat] || { icon: '📌', label: cat };
+    }
+
+    // Render Hero (Pinned Focus Card)
     function renderHero() {
       const hero = document.getElementById('hero-section');
-      const pinnedEvent = events.find(e => e.pinned) || events[0];
+      let pinnedEvent = events.find(e => e.pinned);
+      if (!pinnedEvent && events.length > 0) {
+        pinnedEvent = events[0];
+      }
 
       if (!pinnedEvent) {
         hero.innerHTML = `
-          <div class="py-8 text-center text-xs font-mono-swiss text-neutral-500 border border-dashed border-neutral-800 p-6">
-            NO PINNED RECORD // 点击 "+ NEW ENTRY" 创建你的第一个专属纪念日
+          <div onclick="openAddModal()" class="p-6 rounded-[28px] m3-surface-low border border-dashed m3-border-outline text-center space-y-2 m3-pressable">
+            <div class="text-3xl">✨</div>
+            <div class="font-bold text-sm">还没有添加任何纪念日</div>
+            <p class="text-xs m3-text-variant">点击此处或右下角「+ 添加纪念」，守候生命中的每一个刻度</p>
           </div>
         `;
         return;
       }
 
       const calc = calculateDays(pinnedEvent);
-      const isHeroDark = isDark;
-      const borderColor = isHeroDark ? 'border-neutral-800 group-hover:border-neutral-500' : 'border-neutral-300 group-hover:border-black';
-      const subColor = isHeroDark ? 'text-neutral-400' : 'text-neutral-600';
+      const catBadge = getCategoryBadge(pinnedEvent.category);
       const photosCount = pinnedEvent.photos ? pinnedEvent.photos.length : 0;
 
       // Sync data to native Android Desktop Widget
@@ -836,113 +1188,143 @@
         }
       }
 
-      // Progress bar if since
+      // Linear Progress Indicator
       let progressBarHtml = '';
       if (calc.isSince) {
         const percent = Math.min(100, Math.round((calc.absDays % 365) / 365 * 100));
         progressBarHtml = `
-          <div class="pt-2">
-            <div class="flex justify-between text-[10px] font-mono-swiss ${subColor}">
-              <span>ANNUAL CYCLE // 本年刻度</span>
-              <span>${percent}%</span>
+          <div class="pt-3">
+            <div class="flex justify-between text-[11px] font-mono-num m3-text-variant font-medium">
+              <span>年度周期刻度 · ${percent}%</span>
+              <span>${calc.absDays % 365} / 365 天</span>
             </div>
-            <div class="w-full h-1 bg-neutral-800 mt-1 overflow-hidden">
-              <div class="h-full ${isHeroDark ? 'bg-white' : 'bg-black'}" style="width: ${percent}%"></div>
+            <div class="w-full h-2 rounded-full m3-surface-highest mt-1.5 overflow-hidden">
+              <div class="h-full rounded-full m3-primary transition-all duration-500" style="width: ${percent}%"></div>
             </div>
           </div>
         `;
       }
 
       hero.innerHTML = `
-        <div onclick="openDetailModal('${pinnedEvent.id}')" class="transition-all">
-          <div class="flex items-center justify-between text-xs font-mono-swiss tracking-widest uppercase mb-1 ${subColor}">
+        <div onclick="openDetailModal('${pinnedEvent.id}')" class="p-5 sm:p-6 rounded-[28px] m3-surface-low border m3-border-outline m3-elevation-2 m3-pressable space-y-3 relative overflow-hidden">
+          
+          <!-- Background Subtle Gradient Glow -->
+          <div class="absolute -right-8 -top-8 w-44 h-44 rounded-full m3-primary-container opacity-20 blur-2xl pointer-events-none"></div>
+
+          <!-- Top Meta Row -->
+          <div class="flex items-center justify-between relative z-10">
             <div class="flex items-center gap-2">
-              <span class="w-2 h-2 ${isHeroDark ? 'bg-white' : 'bg-black'}"></span>
-              <span>PINNED // ${pinnedEvent.category}</span>
-              ${photosCount > 0 ? `<span class="px-1 border ${isHeroDark ? 'border-neutral-700 text-neutral-300' : 'border-neutral-400 text-neutral-700'} text-[10px]">📷 ${photosCount}图</span>` : ''}
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold m3-secondary-container flex items-center gap-1">
+                <span>${catBadge.icon}</span>
+                <span>${pinnedEvent.category}</span>
+              </span>
+              <span class="text-[10px] font-mono-num px-2 py-0.5 rounded-full m3-surface-high m3-text-variant font-semibold">
+                ⭐ 置顶焦点
+              </span>
             </div>
-            <span>${calc.subLabel}</span>
-          </div>
-
-          <div class="text-xl sm:text-2xl font-black tracking-tight mt-1 flex items-baseline justify-between">
-            <span>${pinnedEvent.title}</span>
-            <div class="flex gap-1.5 items-center">
-              ${pinnedEvent.calendarType === 'lunar' ? `<span class="text-[10px] font-mono-swiss px-1 border border-amber-600/60 text-amber-500 uppercase">农历</span>` : ''}
-              ${pinnedEvent.repeat !== 'none' ? `<span class="text-[10px] font-mono-swiss px-1.5 py-0.5 border ${isHeroDark ? 'border-neutral-700 text-neutral-300' : 'border-neutral-400 text-neutral-700'} uppercase">${pinnedEvent.repeat}</span>` : ''}
-            </div>
-          </div>
-
-          <!-- Massive Swiss Number -->
-          <div class="flex items-baseline gap-3 my-1">
-            <span class="text-7xl sm:text-8xl font-black tracking-tighter leading-none select-all">${calc.absDays}</span>
-            <span class="text-xs sm:text-sm font-mono-swiss font-bold tracking-widest ${subColor}">${calc.label}</span>
-          </div>
-
-          ${progressBarHtml}
-
-          <!-- Footer details -->
-          <div class="flex justify-between items-center text-xs font-mono-swiss pt-2 border-t ${borderColor} ${subColor} mt-2">
-            <span>${calc.displayLunarStr}</span>
-            <span class="group-hover:translate-x-1 transition-transform inline-flex items-center gap-1 font-bold">
-              VIEW DETAILS & ALBUM ➜
+            <span class="text-xs font-mono-num font-bold px-2.5 py-1 rounded-full m3-primary-container">
+              ${calc.badgeText}
             </span>
           </div>
+
+          <!-- Event Title -->
+          <div class="relative z-10 pt-1">
+            <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">${pinnedEvent.title}</h2>
+            <p class="text-xs m3-text-variant mt-0.5">${calc.subLabel} · 目标日期 ${calc.targetDateStr} (${calc.displayLunarStr})</p>
+          </div>
+
+          <!-- Giant M3 Display Number -->
+          <div class="flex items-baseline gap-2 pt-1 relative z-10">
+            <span class="text-6xl sm:text-7xl font-extrabold font-mono-num tracking-tight leading-none text-[var(--md-sys-color-primary)]">${calc.absDays}</span>
+            <span class="text-base sm:text-lg font-bold m3-text-variant">天</span>
+            <span class="text-xs font-mono-num font-semibold uppercase tracking-wider ml-auto m3-text-variant">${calc.label}</span>
+          </div>
+
+          <!-- Progress Bar -->
+          ${progressBarHtml}
+
+          <!-- Footer indicators -->
+          <div class="flex items-center justify-between text-[11px] pt-1 border-t m3-border-outline m3-text-variant relative z-10">
+            <span class="flex items-center gap-1">
+              <span>📸</span>
+              <span>${photosCount > 0 ? `${photosCount} 张回忆卡片` : '轻触可补充现场照片'}</span>
+            </span>
+            <span class="text-[10px] font-bold text-[var(--md-sys-color-primary)]">查看详情与海报 →</span>
+          </div>
+
         </div>
       `;
     }
 
-    // Render List
+    // Render Event List (M3 Cards)
     function renderList() {
-      const list = document.getElementById('event-list');
+      const container = document.getElementById('event-list');
       const countLabel = document.getElementById('event-count-label');
 
       let filtered = events.filter(e => {
-        const matchCat = currentCategory === 'ALL' || e.category === currentCategory;
-        const matchSearch = !searchQuery || e.title.toLowerCase().includes(searchQuery) || (e.notes && e.notes.toLowerCase().includes(searchQuery));
-        return matchCat && matchSearch;
+        const matchesCategory = currentCategory === 'ALL' || e.category === currentCategory;
+        const matchesSearch = !searchQuery || 
+          e.title.toLowerCase().includes(searchQuery) || 
+          (e.notes && e.notes.toLowerCase().includes(searchQuery)) ||
+          (e.date && e.date.includes(searchQuery));
+        return matchesCategory && matchesSearch;
       });
 
-      countLabel.textContent = `${String(filtered.length).padStart(2, '0')} RECORDS`;
+      countLabel.innerText = `${filtered.length} 条记录`;
 
       if (filtered.length === 0) {
-        list.innerHTML = `
-          <div class="py-12 text-center text-xs font-mono-swiss text-neutral-500">
-            --- NO MATCHING RECORDS FOUND ---
+        container.innerHTML = `
+          <div class="py-12 text-center space-y-2 m3-surface-low rounded-[24px] border m3-border-outline">
+            <div class="text-3xl">🍃</div>
+            <div class="font-bold text-sm">暂无匹配的纪念日</div>
+            <p class="text-xs m3-text-variant">尝试更换分类或清除搜索关键词</p>
           </div>
         `;
         return;
       }
 
-      list.innerHTML = filtered.map(ev => {
+      container.innerHTML = filtered.map(ev => {
         const calc = calculateDays(ev);
-        const dividerClass = isDark ? 'border-neutral-800 hover:bg-neutral-900/40' : 'border-neutral-200 hover:bg-neutral-100/60';
-        const subColor = isDark ? 'text-neutral-400' : 'text-neutral-500';
-        const pCount = ev.photos ? ev.photos.length : 0;
+        const catBadge = getCategoryBadge(ev.category);
+        const photosCount = ev.photos ? ev.photos.length : 0;
 
         return `
-          <div class="py-3.5 flex items-baseline justify-between transition-colors px-1 cursor-pointer group ${dividerClass}" onclick="openDetailModal('${ev.id}')">
-            <!-- Left Info -->
-            <div class="space-y-0.5 max-w-[65%]">
-              <div class="flex items-center gap-2 text-[10px] font-mono-swiss tracking-widest uppercase ${subColor}">
-                <span>${ev.category}</span>
-                ${ev.pinned ? `<span class="px-1 border ${isDark ? 'border-white text-white' : 'border-black text-black'} font-bold">PIN</span>` : ''}
-                ${ev.calendarType === 'lunar' ? `<span class="text-amber-500 font-bold">农历</span>` : ''}
-                ${pCount > 0 ? `<span>📷${pCount}</span>` : ''}
+          <div onclick="openDetailModal('${ev.id}')" class="p-4 rounded-[22px] m3-surface-low border m3-border-outline m3-elevation-1 m3-pressable hover:m3-surface-container transition-all flex items-center justify-between gap-3">
+            
+            <!-- Left Category Pill Icon -->
+            <div class="w-12 h-12 rounded-2xl m3-secondary-container flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+              <span>${catBadge.icon}</span>
+            </div>
+
+            <!-- Middle Title & Meta -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5">
+                <h3 class="font-bold text-sm truncate">${ev.title}</h3>
+                ${ev.pinned ? '<span class="text-[10px] text-amber-500">⭐</span>' : ''}
               </div>
-              <div class="text-base font-bold tracking-tight truncate">${ev.title}</div>
-              <div class="text-xs font-mono-swiss ${subColor} truncate">
-                ${calc.targetDateStr}
+              <div class="text-[11px] m3-text-variant flex items-center gap-2 mt-0.5 truncate">
+                <span>${calc.targetDateStr}</span>
+                <span>·</span>
+                <span>${calc.displayLunarStr}</span>
+              </div>
+              <div class="mt-1 flex items-center gap-2">
+                <span class="text-[10px] font-mono-num font-semibold px-2 py-0.5 rounded-full m3-surface-high m3-text-variant">
+                  ${calc.badgeText}
+                </span>
+                ${photosCount > 0 ? `<span class="text-[10px] m3-text-variant">📷 ${photosCount}</span>` : ''}
               </div>
             </div>
 
-            <!-- Right Number -->
-            <div class="text-right">
-              <div class="flex items-baseline justify-end gap-1">
-                <span class="text-3xl sm:text-4xl font-black tracking-tight leading-none">${calc.absDays}</span>
-                <span class="text-[10px] font-mono-swiss font-bold tracking-wider ${subColor}">D</span>
+            <!-- Right Giant Days Count -->
+            <div class="text-right flex-shrink-0 pl-2">
+              <div class="text-2xl font-extrabold font-mono-num leading-none text-[var(--md-sys-color-primary)]">
+                ${calc.absDays}
               </div>
-              <span class="text-[10px] font-mono-swiss uppercase block ${subColor} mt-0.5">${calc.label}</span>
+              <div class="text-[10px] font-bold m3-text-variant uppercase mt-1 tracking-wider">
+                ${calc.isSince ? '已过去' : '还剩天'}
+              </div>
             </div>
+
           </div>
         `;
       }).join('');
@@ -954,71 +1336,75 @@
       renderList();
     }
 
-    // Calendar Type Switch in Form
+    // Modal Control: Add / Edit
     function setCalendarType(type) {
       currentCalendarType = type;
       const btnSolar = document.getElementById('btn-type-solar');
       const btnLunar = document.getElementById('btn-type-lunar');
-      const boxSolar = document.getElementById('solar-input-box');
-      const boxLunar = document.getElementById('lunar-input-box');
+      const solarBox = document.getElementById('solar-input-box');
+      const lunarBox = document.getElementById('lunar-input-box');
 
       if (type === 'solar') {
-        btnSolar.className = 'px-2 py-0.5 border border-white text-white font-bold text-[11px]';
-        btnLunar.className = 'px-2 py-0.5 border border-neutral-700 text-neutral-400 text-[11px]';
-        boxSolar.classList.remove('hidden');
-        boxLunar.classList.add('hidden');
+        btnSolar.className = 'py-2 rounded-xl font-bold transition-all m3-primary shadow-sm';
+        btnLunar.className = 'py-2 rounded-xl font-medium m3-text-variant transition-all hover:opacity-80';
+        solarBox.classList.remove('hidden');
+        lunarBox.classList.add('hidden');
       } else {
-        btnLunar.className = 'px-2 py-0.5 border border-amber-500 text-amber-400 font-bold text-[11px]';
-        btnSolar.className = 'px-2 py-0.5 border border-neutral-700 text-neutral-400 text-[11px]';
-        boxLunar.classList.remove('hidden');
-        boxSolar.classList.add('hidden');
+        btnLunar.className = 'py-2 rounded-xl font-bold transition-all m3-primary shadow-sm';
+        btnSolar.className = 'py-2 rounded-xl font-medium m3-text-variant transition-all hover:opacity-80';
+        lunarBox.classList.remove('hidden');
+        solarBox.classList.add('hidden');
       }
     }
 
-    // Modal Control: Add / Edit
     function openAddModal() {
-      document.getElementById('modal-title').textContent = 'NEW RECORD';
-      document.getElementById('modal-subheading').textContent = 'CREATE ENTRY // 新增';
+      document.getElementById('modal-title').innerText = '添加新纪念日';
+      document.getElementById('modal-subheading').innerText = 'NEW RECORD';
       document.getElementById('form-id').value = '';
       document.getElementById('form-title').value = '';
-      setFormDateToday();
-      setCalendarType('solar');
-      populateCategorySelect('纪念日');
+      document.getElementById('form-notes').value = '';
       document.getElementById('form-mode').value = 'auto';
       document.getElementById('form-repeat').value = 'none';
       document.getElementById('form-pinned').checked = false;
-      document.getElementById('form-notes').value = '';
+
+      setFormDateToday();
+      setCalendarType('solar');
+      populateCategorySelect();
+
       formPhotos = [];
       renderScrapbookForm();
+
       document.getElementById('edit-modal').classList.remove('hidden');
     }
 
     function openEditModal(id) {
       const ev = events.find(e => e.id === id);
       if (!ev) return;
-      closeDetailModal();
 
-      document.getElementById('modal-title').textContent = 'EDIT RECORD';
-      document.getElementById('modal-subheading').textContent = 'MODIFY ENTRY // 编辑';
+      document.getElementById('modal-title').innerText = '编辑纪念日';
+      document.getElementById('modal-subheading').innerText = 'EDIT ENTRY';
       document.getElementById('form-id').value = ev.id;
       document.getElementById('form-title').value = ev.title;
       document.getElementById('form-date').value = ev.date || '';
-      
-      if (ev.calendarType === 'lunar') {
-        setCalendarType('lunar');
-        document.getElementById('form-lunar-month').value = ev.lunarMonth || 1;
-        document.getElementById('form-lunar-day').value = ev.lunarDay || 1;
-      } else {
-        setCalendarType('solar');
-      }
-
-      populateCategorySelect(ev.category || '纪念日');
       document.getElementById('form-mode').value = ev.mode || 'auto';
       document.getElementById('form-repeat').value = ev.repeat || 'none';
       document.getElementById('form-pinned').checked = !!ev.pinned;
       document.getElementById('form-notes').value = ev.notes || '';
+
+      if (ev.calendarType === 'lunar') {
+        setCalendarType('lunar');
+        document.getElementById('form-lunar-month').value = String(ev.lunarMonth || 1);
+        document.getElementById('form-lunar-day').value = String(ev.lunarDay || 1);
+      } else {
+        setCalendarType('solar');
+      }
+
+      populateCategorySelect(ev.category);
+
       formPhotos = ev.photos ? JSON.parse(JSON.stringify(ev.photos)) : [];
       renderScrapbookForm();
+
+      closeDetailModal();
       document.getElementById('edit-modal').classList.remove('hidden');
     }
 
@@ -1041,57 +1427,58 @@
       `).join('');
     }
 
-    // ================= Scrapbook Photo Handling =================
+    // Photo & Scrapbook Handling
     function handlePhotoUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
 
       if (formPhotos.length >= 3) {
-        alert('最多上传 3 张照片！');
+        alert('每条纪念日最多可上传 3 张现场照片。');
         return;
       }
 
-      const qualityMode = document.querySelector('input[name="photo-quality"]:checked').value;
+      const qualityChoice = document.querySelector('input[name="photo-quality"]:checked').value;
+      const isCompressed = qualityChoice === 'compressed';
+
       const reader = new FileReader();
       reader.onload = function(evt) {
+        const rawData = evt.target.result;
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
+          let w = img.width;
+          let h = img.height;
 
-          // Compression constraints
-          const maxDim = qualityMode === 'hd' ? 1920 : 960;
-          if (width > maxDim || height > maxDim) {
-            if (width > height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
+          if (isCompressed) {
+            const maxDim = 1200;
+            if (w > maxDim || h > maxDim) {
+              if (w > h) {
+                h = Math.round((h * maxDim) / w);
+                w = maxDim;
+              } else {
+                w = Math.round((w * maxDim) / h);
+                h = maxDim;
+              }
             }
           }
 
-          canvas.width = width;
-          canvas.height = height;
+          canvas.width = w;
+          canvas.height = h;
           const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          const quality = qualityMode === 'hd' ? 0.92 : 0.75;
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          ctx.drawImage(img, 0, 0, w, h);
+          const finalDataUrl = canvas.toDataURL('image/jpeg', isCompressed ? 0.8 : 0.95);
 
           formPhotos.push({
-            dataUrl: compressedDataUrl,
-            caption: '',
-            quality: qualityMode
+            dataUrl: finalDataUrl,
+            caption: ''
           });
 
           renderScrapbookForm();
-          e.target.value = ''; // Reset input
         };
-        img.src = evt.target.result;
+        img.src = rawData;
       };
       reader.readAsDataURL(file);
+      e.target.value = '';
     }
 
     function renderScrapbookForm() {
@@ -1104,26 +1491,31 @@
         addBtnBox.classList.remove('hidden');
       }
 
-      container.innerHTML = formPhotos.map((p, idx) => `
-        <div class="p-3 border border-neutral-700 bg-neutral-900/60 rounded flex gap-3 items-start">
-          <!-- Thumbnail with Sticker action -->
-          <div class="relative w-24 h-24 flex-shrink-0 bg-black border border-neutral-700 rounded overflow-hidden group">
-            <img src="${p.dataUrl}" class="w-full h-full object-cover">
-            <button type="button" onclick="openStickerEditor(${idx})" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-[10px] font-bold transition-opacity">
-              ✨ 遮脸贴纸
-            </button>
+      if (formPhotos.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-2 text-[11px] m3-text-variant">
+            暂无现场照片（可记录相聚美好瞬间）
           </div>
+        `;
+        return;
+      }
 
-          <!-- Note / Caption -->
+      container.innerHTML = formPhotos.map((p, idx) => `
+        <div class="p-2.5 rounded-xl m3-surface-high border m3-border-outline flex gap-3 items-center">
+          <div class="w-16 h-16 rounded-lg overflow-hidden m3-surface-highest flex-shrink-0 relative group">
+            <img src="${p.dataUrl}" class="w-full h-full object-cover">
+          </div>
           <div class="flex-1 space-y-1.5">
-            <div class="flex justify-between items-center text-[10px] text-neutral-400">
-              <span class="font-bold">照片 #${idx + 1} (${p.quality === 'hd' ? '原图高清' : '标清压缩'})</span>
-              <div class="flex gap-2">
-                <button type="button" onclick="openStickerEditor(${idx})" class="text-amber-400 hover:underline">✨ P图贴纸</button>
-                <button type="button" onclick="deleteFormPhoto(${idx})" class="text-red-400 hover:underline">删除</button>
-              </div>
+            <input type="text" value="${p.caption || ''}" oninput="updatePhotoCaption(${idx}, this.value)" placeholder="写下这一刻的心情或故事..." class="w-full p-2 text-xs rounded-lg m3-surface-container border m3-border-outline focus:outline-none">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="openStickerEditor(${idx})" class="text-[11px] font-bold text-[var(--md-sys-color-primary)] hover:underline flex items-center gap-1">
+                <span>🎨</span>
+                <span>表情贴纸 / 遮脸</span>
+              </button>
+              <button type="button" onclick="deleteFormPhoto(${idx})" class="text-[11px] text-red-500 hover:underline ml-auto">
+                删除
+              </button>
             </div>
-            <textarea placeholder="写下这张照片背后的故事（那天发生了什么事）..." rows="2" class="w-full bg-neutral-950 border border-neutral-700 p-1.5 text-xs text-white focus:outline-none focus:border-white" oninput="updatePhotoCaption(${idx}, this.value)">${p.caption || ''}</textarea>
           </div>
         </div>
       `).join('');
@@ -1140,13 +1532,12 @@
       renderScrapbookForm();
     }
 
-    // ================= Sticker / Face-Covering Canvas Editor =================
+    // ================= Sticker / Face-Covering Studio =================
     function initStickerTray() {
       const tray = document.getElementById('sticker-tray');
-      tray.innerHTML = STICKER_LIST.map((s, idx) => `
-        <button type="button" onclick="addStickerToCanvas('${s.icon}')" class="p-2 border border-neutral-800 rounded hover:bg-neutral-800 hover:border-neutral-500 transition-all flex-shrink-0 flex flex-col items-center gap-0.5" title="${s.label}">
-          <span>${s.icon}</span>
-          <span class="text-[9px] text-neutral-400 whitespace-nowrap">${s.label}</span>
+      tray.innerHTML = STICKER_LIST.map(st => `
+        <button type="button" onclick="addStickerToCanvas('${st.icon}')" class="p-2 rounded-xl bg-white/5 hover:bg-white/20 transition-all text-2xl flex-shrink-0" title="${st.label}">
+          ${st.icon}
         </button>
       `).join('');
     }
@@ -1167,7 +1558,6 @@
         stickerCanvas.height = stickerBaseImage.height;
         drawStickerCanvas();
         document.getElementById('sticker-modal').classList.remove('hidden');
-        bindCanvasTouchEvents();
       };
       stickerBaseImage.src = photo.dataUrl;
     }
@@ -1181,42 +1571,55 @@
       stickerCtx.clearRect(0, 0, stickerCanvas.width, stickerCanvas.height);
       stickerCtx.drawImage(stickerBaseImage, 0, 0);
 
-      // Render stickers
       placedStickers.forEach((st, idx) => {
         stickerCtx.save();
-        stickerCtx.font = `${st.size}px sans-serif`;
+        stickerCtx.translate(st.x, st.y);
+        if (st.rotation) {
+          stickerCtx.rotate((st.rotation * Math.PI) / 180);
+        }
+        const fontSize = Math.round(stickerCanvas.width * 0.15 * st.size);
+        stickerCtx.font = `${fontSize}px sans-serif`;
         stickerCtx.textAlign = 'center';
         stickerCtx.textBaseline = 'middle';
-        stickerCtx.fillText(st.icon, st.x, st.y);
+        stickerCtx.fillText(st.icon, 0, 0);
 
-        // Selection ring
         if (idx === activeStickerIndex) {
-          stickerCtx.strokeStyle = '#ffffff';
-          stickerCtx.lineWidth = 3;
-          stickerCtx.strokeRect(st.x - st.size / 2 - 4, st.y - st.size / 2 - 4, st.size + 8, st.size + 8);
+          stickerCtx.strokeStyle = '#D0BCFF';
+          stickerCtx.lineWidth = 4;
+          stickerCtx.setLineDash([8, 8]);
+          const boxSize = fontSize * 1.1;
+          stickerCtx.strokeRect(-boxSize / 2, -boxSize / 2, boxSize, boxSize);
         }
         stickerCtx.restore();
       });
     }
 
     function addStickerToCanvas(icon) {
-      const defaultSize = Math.max(60, Math.round(stickerCanvas.width * 0.18));
+      if (!stickerCanvas) return;
       const newSticker = {
         icon: icon,
         x: stickerCanvas.width / 2,
         y: stickerCanvas.height / 2,
-        size: defaultSize
+        size: 1.0,
+        rotation: 0
       };
       placedStickers.push(newSticker);
       activeStickerIndex = placedStickers.length - 1;
       document.getElementById('sticker-size-slider').value = '1.0';
+      document.getElementById('sticker-rot-slider').value = '0';
       drawStickerCanvas();
     }
 
     function updateActiveStickerSize(scale) {
       if (activeStickerIndex >= 0 && placedStickers[activeStickerIndex]) {
-        const baseSize = Math.max(60, Math.round(stickerCanvas.width * 0.18));
-        placedStickers[activeStickerIndex].size = Math.round(baseSize * parseFloat(scale));
+        placedStickers[activeStickerIndex].size = parseFloat(scale);
+        drawStickerCanvas();
+      }
+    }
+
+    function updateActiveStickerRotation(deg) {
+      if (activeStickerIndex >= 0 && placedStickers[activeStickerIndex]) {
+        placedStickers[activeStickerIndex].rotation = parseInt(deg, 10);
         drawStickerCanvas();
       }
     }
@@ -1224,7 +1627,7 @@
     function deleteActiveSticker() {
       if (activeStickerIndex >= 0) {
         placedStickers.splice(activeStickerIndex, 1);
-        activeStickerIndex = placedStickers.length - 1;
+        activeStickerIndex = -1;
         drawStickerCanvas();
       }
     }
@@ -1236,58 +1639,63 @@
     }
 
     function saveStickerResult() {
-      // Export flattened canvas to base64
+      if (!stickerCanvas || stickerActivePhotoIndex < 0) return;
       activeStickerIndex = -1;
-      drawStickerCanvas(); // Redraw without selection outline
-      const finalDataUrl = stickerCanvas.toDataURL('image/jpeg', 0.88);
+      drawStickerCanvas();
+      const updatedDataUrl = stickerCanvas.toDataURL('image/jpeg', 0.9);
       if (formPhotos[stickerActivePhotoIndex]) {
-        formPhotos[stickerActivePhotoIndex].dataUrl = finalDataUrl;
+        formPhotos[stickerActivePhotoIndex].dataUrl = updatedDataUrl;
       }
       renderScrapbookForm();
       closeStickerModal();
     }
 
     function bindCanvasTouchEvents() {
-      function getCanvasCoords(clientX, clientY) {
-        const rect = stickerCanvas.getBoundingClientRect();
-        const scaleX = stickerCanvas.width / rect.width;
-        const scaleY = stickerCanvas.height / rect.height;
+      const canvas = document.getElementById('sticker-canvas');
+      if (!canvas) return;
+
+      function getCanvasPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         return {
           x: (clientX - rect.left) * scaleX,
           y: (clientY - rect.top) * scaleY
         };
       }
 
-      function handleStart(clientX, clientY) {
-        const coords = getCanvasCoords(clientX, clientY);
-        // Find if user tapped an existing sticker (top-down)
-        let found = -1;
+      function handleStart(e) {
+        const pos = getCanvasPos(e);
+        let foundIdx = -1;
         for (let i = placedStickers.length - 1; i >= 0; i--) {
           const st = placedStickers[i];
-          const half = st.size / 2;
-          if (coords.x >= st.x - half && coords.x <= st.x + half &&
-              coords.y >= st.y - half && coords.y <= st.y + half) {
-            found = i;
+          const fontSize = Math.round(canvas.width * 0.15 * st.size);
+          const dist = Math.hypot(pos.x - st.x, pos.y - st.y);
+          if (dist < fontSize * 0.7) {
+            foundIdx = i;
             break;
           }
         }
-        if (found !== -1) {
-          activeStickerIndex = found;
+
+        if (foundIdx >= 0) {
+          activeStickerIndex = foundIdx;
           isDraggingSticker = true;
-          dragStartX = coords.x - placedStickers[found].x;
-          dragStartY = coords.y - placedStickers[found].y;
-          drawStickerCanvas();
-        } else {
-          activeStickerIndex = -1;
+          dragStartX = pos.x - placedStickers[foundIdx].x;
+          dragStartY = pos.y - placedStickers[foundIdx].y;
+          document.getElementById('sticker-size-slider').value = String(placedStickers[foundIdx].size);
+          document.getElementById('sticker-rot-slider').value = String(placedStickers[foundIdx].rotation || 0);
           drawStickerCanvas();
         }
       }
 
-      function handleMove(clientX, clientY) {
-        if (!isDraggingSticker || activeStickerIndex === -1) return;
-        const coords = getCanvasCoords(clientX, clientY);
-        placedStickers[activeStickerIndex].x = coords.x - dragStartX;
-        placedStickers[activeStickerIndex].y = coords.y - dragStartY;
+      function handleMove(e) {
+        if (!isDraggingSticker || activeStickerIndex < 0) return;
+        e.preventDefault();
+        const pos = getCanvasPos(e);
+        placedStickers[activeStickerIndex].x = pos.x - dragStartX;
+        placedStickers[activeStickerIndex].y = pos.y - dragStartY;
         drawStickerCanvas();
       }
 
@@ -1295,25 +1703,13 @@
         isDraggingSticker = false;
       }
 
-      // Mouse
-      stickerCanvas.onmousedown = (e) => handleStart(e.clientX, e.clientY);
-      window.onmousemove = (e) => handleMove(e.clientX, e.clientY);
-      window.onmouseup = () => handleEnd();
+      canvas.addEventListener('mousedown', handleStart);
+      window.addEventListener('mousemove', handleMove);
+      window.addEventListener('mouseup', handleEnd);
 
-      // Touch
-      stickerCanvas.ontouchstart = (e) => {
-        if (e.touches.length === 1) {
-          handleStart(e.touches[0].clientX, e.touches[0].clientY);
-          e.preventDefault();
-        }
-      };
-      stickerCanvas.ontouchmove = (e) => {
-        if (e.touches.length === 1 && isDraggingSticker) {
-          handleMove(e.touches[0].clientX, e.touches[0].clientY);
-          e.preventDefault();
-        }
-      };
-      stickerCanvas.ontouchend = () => handleEnd();
+      canvas.addEventListener('touchstart', handleStart, { passive: false });
+      window.addEventListener('touchmove', handleMove, { passive: false });
+      window.addEventListener('touchend', handleEnd);
     }
 
     // Save Event Form
@@ -1321,25 +1717,25 @@
       e.preventDefault();
       const id = document.getElementById('form-id').value;
       const title = document.getElementById('form-title').value.trim();
-      const mode = document.getElementById('form-mode').value;
       const category = document.getElementById('form-category').value;
+      const mode = document.getElementById('form-mode').value;
       const repeat = document.getElementById('form-repeat').value;
       const pinned = document.getElementById('form-pinned').checked;
       const notes = document.getElementById('form-notes').value.trim();
 
-      let date = document.getElementById('form-date').value;
-      let lunarMonth = null;
-      let lunarDay = null;
+      let dateVal = '';
+      let lunarM = null;
+      let lunarD = null;
 
       if (currentCalendarType === 'lunar') {
-        lunarMonth = parseInt(document.getElementById('form-lunar-month').value);
-        lunarDay = parseInt(document.getElementById('form-lunar-day').value);
-        // Compute solar date corresponding to this lunar date
-        const solarDate = lunarToSolar(new Date().getFullYear(), lunarMonth, lunarDay);
-        const y = solarDate.getFullYear();
-        const m = String(solarDate.getMonth() + 1).padStart(2, '0');
-        const d = String(solarDate.getDate()).padStart(2, '0');
-        date = `${y}-${m}-${d}`;
+        lunarM = parseInt(document.getElementById('form-lunar-month').value, 10);
+        lunarD = parseInt(document.getElementById('form-lunar-day').value, 10);
+      } else {
+        dateVal = document.getElementById('form-date').value;
+        if (!dateVal) {
+          alert('请选择公历日期');
+          return;
+        }
       }
 
       if (pinned) {
@@ -1347,39 +1743,38 @@
       }
 
       if (id) {
-        const index = events.findIndex(item => item.id === id);
-        if (index !== -1) {
-          events[index] = {
-            ...events[index],
-            title,
-            date,
-            calendarType: currentCalendarType,
-            lunarMonth,
-            lunarDay,
-            mode,
-            category,
-            repeat,
-            pinned,
-            notes,
-            photos: [...formPhotos]
-          };
+        // Edit existing
+        const ev = events.find(item => item.id === id);
+        if (ev) {
+          ev.title = title;
+          ev.category = category;
+          ev.mode = mode;
+          ev.repeat = repeat;
+          ev.pinned = pinned;
+          ev.notes = notes;
+          ev.calendarType = currentCalendarType;
+          ev.date = dateVal;
+          ev.lunarMonth = lunarM;
+          ev.lunarDay = lunarD;
+          ev.photos = formPhotos;
         }
       } else {
-        const newEvent = {
+        // Create new
+        const newEv = {
           id: 'ev-' + Date.now(),
           title,
-          date,
-          calendarType: currentCalendarType,
-          lunarMonth,
-          lunarDay,
-          mode,
           category,
+          mode,
           repeat,
           pinned,
           notes,
-          photos: [...formPhotos]
+          calendarType: currentCalendarType,
+          date: dateVal,
+          lunarMonth: lunarM,
+          lunarDay: lunarD,
+          photos: formPhotos
         };
-        events.unshift(newEvent);
+        events.unshift(newEv);
       }
 
       saveToStorage();
@@ -1387,14 +1782,12 @@
       renderAll();
     }
 
-    // ================= Detail Modal & Album View =================
+    // ================= Detail Modal =================
     function openDetailModal(id) {
       const ev = events.find(e => e.id === id);
       if (!ev) return;
       const calc = calculateDays(ev);
-      const isModalDark = isDark;
-      const subColor = isModalDark ? 'text-neutral-400' : 'text-neutral-600';
-      const borderLine = isModalDark ? 'border-neutral-800' : 'border-neutral-200';
+      const catBadge = getCategoryBadge(ev.category);
 
       // Milestones
       let milestoneHtml = '';
@@ -1404,11 +1797,11 @@
         if (nextMs) {
           const daysToNext = nextMs - calc.absDays;
           milestoneHtml = `
-            <div class="p-3 border ${borderLine} bg-neutral-900/30 text-xs font-mono-swiss space-y-1">
-              <div class="text-[10px] uppercase text-neutral-400">NEXT MILESTONE // 下一个里程碑</div>
-              <div class="flex justify-between items-baseline font-bold">
-                <span>${nextMs} DAYS 纪念日</span>
-                <span>还有 ${daysToNext} 天</span>
+            <div class="p-3.5 rounded-2xl m3-surface-container border m3-border-outline space-y-1">
+              <div class="text-[10px] font-mono-num font-bold uppercase m3-text-variant">NEXT MILESTONE // 下一个重要里程碑</div>
+              <div class="flex justify-between items-baseline font-bold text-xs">
+                <span>🎯 ${nextMs} 天整纪念日</span>
+                <span class="text-[var(--md-sys-color-primary)]">还有 ${daysToNext} 天</span>
               </div>
             </div>
           `;
@@ -1419,18 +1812,18 @@
       let albumHtml = '';
       if (ev.photos && ev.photos.length > 0) {
         albumHtml = `
-          <div class="space-y-3 pt-3 border-t ${borderLine}">
-            <div class="flex items-center justify-between text-xs font-mono-swiss">
-              <span class="font-bold uppercase tracking-wider">📸 纪念卡册 (${ev.photos.length}张现场照片)</span>
-              <span class="text-[10px] text-neutral-500">那一天的回忆</span>
+          <div class="space-y-2.5 pt-2 border-t m3-border-outline">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold">📸 纪念卡册 (${ev.photos.length} 张现场照片)</span>
+              <span class="text-[10px] m3-text-variant">那一天的回忆</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              ${ev.photos.map((p, pIdx) => `
-                <div class="border ${borderLine} p-2 bg-neutral-900/40 rounded space-y-1.5">
-                  <div class="aspect-square bg-black overflow-hidden rounded border ${borderLine}">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              ${ev.photos.map(p => `
+                <div class="p-2 rounded-2xl m3-surface-container border m3-border-outline space-y-1.5">
+                  <div class="aspect-square bg-black/10 rounded-xl overflow-hidden">
                     <img src="${p.dataUrl}" class="w-full h-full object-cover">
                   </div>
-                  <p class="text-[11px] leading-relaxed text-neutral-300 font-sans break-words">${p.caption || '未填写备注说明'}</p>
+                  <p class="text-[11px] leading-relaxed m3-text-variant break-words">${p.caption || '记录美好的那一刻'}</p>
                 </div>
               `).join('')}
             </div>
@@ -1440,41 +1833,44 @@
 
       const content = document.getElementById('detail-content');
       content.innerHTML = `
-        <div class="flex justify-between items-start border-b-2 ${isModalDark ? 'border-white' : 'border-black'} pb-3">
+        <!-- Drag Handle -->
+        <div class="w-10 h-1.5 rounded-full bg-gray-400/40 mx-auto -mt-2 mb-2 cursor-pointer" onclick="closeDetailModal()"></div>
+
+        <div class="flex justify-between items-start pb-2 border-b m3-border-outline">
           <div>
-            <span class="text-[10px] font-mono-swiss tracking-widest uppercase ${subColor}">TIMELINE ARCHIVE // 详情</span>
-            <h2 class="text-2xl font-black tracking-tight mt-0.5">${ev.title}</h2>
+            <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider m3-text-variant">TIMELINE DETAIL</span>
+            <h2 class="text-xl font-bold tracking-tight mt-0.5">${ev.title}</h2>
           </div>
-          <button onclick="closeDetailModal()" class="font-mono text-sm px-2 py-1 border border-neutral-700 uppercase">
-            ESC
+          <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full m3-surface-high flex items-center justify-center text-sm font-bold m3-pressable">
+            ✕
           </button>
         </div>
 
-        <div class="space-y-4 pt-3 text-xs font-mono-swiss">
-          <!-- Giant Display -->
-          <div class="text-center py-4 border-b ${borderLine}">
-            <div class="text-6xl sm:text-7xl font-black tracking-tighter leading-none">${calc.absDays}</div>
-            <div class="text-xs uppercase tracking-widest font-bold mt-2 ${subColor}">${calc.label}</div>
-            <div class="text-[11px] text-neutral-500 mt-1">${calc.subLabel} · ${calc.displayLunarStr}</div>
+        <div class="space-y-4 pt-2 text-xs">
+          <!-- Giant M3 Display Card -->
+          <div class="text-center py-5 rounded-[24px] m3-surface-container border m3-border-outline space-y-1">
+            <div class="text-6xl sm:text-7xl font-extrabold font-mono-num tracking-tight text-[var(--md-sys-color-primary)]">${calc.absDays}</div>
+            <div class="text-xs font-bold uppercase tracking-wider m3-text-variant">${calc.label}</div>
+            <div class="text-[11px] m3-text-variant">${calc.subLabel} · ${calc.displayLunarStr}</div>
           </div>
 
           <!-- Metadata Grid -->
-          <div class="grid grid-cols-2 gap-3 border-b ${borderLine} pb-4">
+          <div class="grid grid-cols-2 gap-2.5 p-3.5 rounded-2xl m3-surface-container border m3-border-outline">
             <div>
-              <span class="text-[10px] uppercase ${subColor} block">CATEGORY / 分类</span>
-              <span class="font-bold text-sm">${ev.category}</span>
+              <span class="text-[10px] uppercase m3-text-variant block">分类类别</span>
+              <span class="font-bold text-xs">${catBadge.icon} ${ev.category}</span>
             </div>
             <div>
-              <span class="text-[10px] uppercase ${subColor} block">REPEAT / 重复周期</span>
-              <span class="font-bold text-sm uppercase">${ev.repeat}</span>
+              <span class="text-[10px] uppercase m3-text-variant block">周期规则</span>
+              <span class="font-bold text-xs uppercase">${ev.repeat}</span>
             </div>
             <div>
-              <span class="text-[10px] uppercase ${subColor} block">TARGET DATE / 目标日期</span>
-              <span class="font-bold text-sm">${calc.targetDateStr}</span>
+              <span class="text-[10px] uppercase m3-text-variant block">目标日期</span>
+              <span class="font-bold text-xs">${calc.targetDateStr}</span>
             </div>
             <div>
-              <span class="text-[10px] uppercase ${subColor} block">CALENDAR / 历法</span>
-              <span class="font-bold text-sm">${ev.calendarType === 'lunar' ? '农历阴历' : '公历阳历'}</span>
+              <span class="text-[10px] uppercase m3-text-variant block">历法体系</span>
+              <span class="font-bold text-xs">${ev.calendarType === 'lunar' ? '中国传统农历' : '公历阳历'}</span>
             </div>
           </div>
 
@@ -1483,9 +1879,9 @@
 
           <!-- Notes -->
           ${ev.notes ? `
-            <div class="space-y-1 border-b ${borderLine} pb-4">
-              <span class="text-[10px] uppercase ${subColor} block">NOTES // 约定与备注</span>
-              <p class="text-xs leading-relaxed text-neutral-300 font-sans">${ev.notes}</p>
+            <div class="p-3.5 rounded-2xl m3-surface-container border m3-border-outline space-y-1">
+              <span class="text-[10px] uppercase m3-text-variant block font-bold">誓言与约定备注</span>
+              <p class="text-xs leading-relaxed font-sans">${ev.notes}</p>
             </div>
           ` : ''}
 
@@ -1493,27 +1889,27 @@
           ${albumHtml}
 
           <!-- Function Buttons (Calendar sync & Poster generator) -->
-          <div class="grid grid-cols-2 gap-2 pt-2">
-            <button onclick="syncToCalendar('${ev.id}')" class="py-2.5 bg-neutral-900 border border-neutral-700 font-mono text-[11px] font-bold uppercase hover:bg-neutral-800 transition-colors flex items-center justify-center gap-1.5">
+          <div class="grid grid-cols-2 gap-2.5 pt-1">
+            <button onclick="syncToCalendar('${ev.id}')" class="py-3 rounded-full m3-surface-high border m3-border-outline font-bold text-xs flex items-center justify-center gap-1.5 m3-pressable">
               <span>🗓️</span>
               <span>写入系统日历</span>
             </button>
-            <button onclick="openPosterModal('${ev.id}')" class="py-2.5 bg-white text-black font-mono text-[11px] font-bold uppercase hover:bg-neutral-200 transition-colors flex items-center justify-center gap-1.5">
+            <button onclick="openPosterModal('${ev.id}')" class="py-3 rounded-full m3-primary font-bold text-xs shadow-md flex items-center justify-center gap-1.5 m3-pressable">
               <span>🖼️</span>
-              <span>生成极简海报</span>
+              <span>生成朋友圈海报</span>
             </button>
           </div>
 
           <!-- Action buttons -->
-          <div class="grid grid-cols-3 gap-2 pt-1 border-t ${borderLine}">
-            <button onclick="togglePin('${ev.id}')" class="py-2 border border-neutral-700 font-mono text-[11px] uppercase hover:bg-neutral-800 transition-colors">
-              ${ev.pinned ? 'UNPIN' : 'PIN TO TOP'}
+          <div class="grid grid-cols-3 gap-2 pt-2 border-t m3-border-outline">
+            <button onclick="togglePin('${ev.id}')" class="py-2.5 rounded-xl m3-surface-high border m3-border-outline font-semibold text-xs m3-pressable">
+              ${ev.pinned ? '取消置顶' : '⭐ 置顶焦点'}
             </button>
-            <button onclick="openEditModal('${ev.id}')" class="py-2 border border-neutral-700 font-mono text-[11px] uppercase hover:bg-neutral-800 transition-colors">
-              EDIT / 补图
+            <button onclick="openEditModal('${ev.id}')" class="py-2.5 rounded-xl m3-surface-high border m3-border-outline font-semibold text-xs m3-pressable">
+              编辑/补图
             </button>
-            <button onclick="deleteEvent('${ev.id}')" class="py-2 border border-red-800 text-red-400 font-mono text-[11px] uppercase hover:bg-red-950/40 transition-colors">
-              DELETE
+            <button onclick="deleteEvent('${ev.id}')" class="py-2.5 rounded-xl border border-red-500/40 text-red-500 font-semibold text-xs hover:bg-red-500/10 transition-colors">
+              删除
             </button>
           </div>
         </div>
@@ -1548,53 +1944,77 @@
       }
     }
 
-    // ================= System Calendar Sync (.ICS generation) =================
+    // Export .ics calendar
     function syncToCalendar(id) {
       const ev = events.find(e => e.id === id);
       if (!ev) return;
-
       const calc = calculateDays(ev);
-      const parts = ev.date.split('-');
+
+      const parts = calc.targetDateStr.split('.');
       const y = parts[0];
       const m = parts[1];
       const d = parts[2];
       const dateTag = `${y}${m}${d}`;
 
-      // Standard iCalendar RFC 5545 format
-      const icsData = [
+      const icsContent = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//ShiYue//Memory Calendar//CN',
+        'PRODID:-//ShiYue//Chrono M3 Calendar//CN',
         'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH',
         'BEGIN:VEVENT',
-        `SUMMARY:【时约】${ev.title}`,
-        `DESCRIPTION:${ev.notes || '时约纪念日提醒'}`,
-        `DTSTART;VALUE=DATE:${dateTag}`,
-        `DTEND;VALUE=DATE:${dateTag}`,
+        `UID:${ev.id}-${Date.now()}@shiyue.app`,
+        `DTSTAMP:${dateTag}T000000Z`,
+        `DTSTART:${dateTag}T090000`,
+        `DTEND:${dateTag}T100000`,
+        `SUMMARY:时约提醒：${ev.title}`,
+        `DESCRIPTION:${ev.notes || '守候每一个值得铭记的时刻'} (${calc.subLabel} · ${calc.displayLunarStr})`,
         'BEGIN:VALARM',
-        'TRIGGER:-PT9H', // 9 hours before (morning reminder)
         'ACTION:DISPLAY',
-        `DESCRIPTION:【时约】${ev.title} 纪念日提醒`,
+        'DESCRIPTION:时约纪念日提醒',
+        'TRIGGER:-PT0M',
         'END:VALARM',
         'END:VEVENT',
         'END:VCALENDAR'
       ].join('\r\n');
 
-      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `时约_${ev.title}.ics`;
+      a.download = `${ev.title}.ics`;
       document.body.appendChild(a);
       a.click();
-      a.remove();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      alert(`已生成并导出日历日程【时约_${ev.title}.ics】！在手机文件管理或通知中点击即可直接添加到系统日历中。`);
+      alert(`已导出《${ev.title}》日历提醒日程！\n手机打开后可直接添加到系统自带日历中，并在当天早晨 9:00 自动闹钟提醒。`);
     }
 
-    // ================= Share Poster Generator =================
+    // ================= M3 Share Poster Generator =================
+    function setPosterTheme(th) {
+      currentPosterTheme = th;
+      const btnM3 = document.getElementById('btn-poster-m3');
+      const btnSwiss = document.getElementById('btn-poster-swiss');
+      if (th === 'm3') {
+        btnM3.className = 'py-1.5 rounded-xl font-bold transition-all m3-primary';
+        btnSwiss.className = 'py-1.5 rounded-xl font-medium m3-text-variant transition-all';
+      } else {
+        btnSwiss.className = 'py-1.5 rounded-xl font-bold transition-all m3-primary';
+        btnM3.className = 'py-1.5 rounded-xl font-medium m3-text-variant transition-all';
+      }
+      if (posterEventId) {
+        drawPoster(posterEventId);
+      }
+    }
+
     function openPosterModal(id) {
+      posterEventId = id;
+      drawPoster(id);
+      document.getElementById('poster-modal').classList.remove('hidden');
+    }
+
+    function drawPoster(id) {
       const ev = events.find(e => e.id === id);
       if (!ev) return;
       const calc = calculateDays(ev);
@@ -1604,82 +2024,183 @@
       canvas.height = 1440;
       const ctx = canvas.getContext('2d');
 
-      // Swiss Minimalist Poster Layout
-      ctx.fillStyle = '#121212';
-      ctx.fillRect(0, 0, 1080, 1440);
-
-      // White geometric border
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(40, 40, 1000, 1360);
-
-      // Top Tag
-      ctx.fillStyle = '#888888';
-      ctx.font = '24px "Space Mono", monospace';
-      ctx.fillText('SHIYUE // TIMELINE ARCHIVE', 80, 110);
-      ctx.fillText(`INDEX // ${ev.category}`, 750, 110);
-
-      // Divider line
-      ctx.strokeStyle = '#333333';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(80, 140);
-      ctx.lineTo(1000, 140);
-      ctx.stroke();
-
-      // Title
-      ctx.fillStyle = '#FFFFFF';
-      ctx.font = 'bold 64px "Inter", sans-serif';
-      ctx.fillText(ev.title, 80, 230);
-
-      // Giant Number
-      ctx.font = '900 240px "Inter", sans-serif';
-      ctx.fillText(calc.absDays, 80, 480);
-
-      // Days label
-      ctx.font = 'bold 36px "Space Mono", monospace';
-      ctx.fillStyle = '#AAAAAA';
-      ctx.fillText(calc.label, 80, 540);
-      ctx.font = '28px "Space Mono", monospace';
-      ctx.fillText(`${calc.subLabel} · ${calc.displayLunarStr}`, 80, 590);
-
-      // Optional Photo Box
-      if (ev.photos && ev.photos.length > 0) {
-        const photoImg = new Image();
-        photoImg.onload = function() {
-          ctx.drawImage(photoImg, 80, 640, 920, 540);
-          renderPosterFooter(ctx, ev);
-          document.getElementById('poster-modal').classList.remove('hidden');
-        };
-        photoImg.src = ev.photos[0].dataUrl;
-      } else {
-        // Text quotation
-        if (ev.notes) {
-          ctx.fillStyle = '#CCCCCC';
-          ctx.font = '32px "Inter", sans-serif';
-          ctx.fillText(`“ ${ev.notes} ”`, 80, 750);
+      if (currentPosterTheme === 'm3') {
+        // Material You Dynamic Gradient Style
+        const grad = ctx.createLinearGradient(0, 0, 1080, 1440);
+        if (currentPalette === 'blue') {
+          grad.addColorStop(0, '#001D32');
+          grad.addColorStop(1, '#004A75');
+        } else if (currentPalette === 'green') {
+          grad.addColorStop(0, '#002111');
+          grad.addColorStop(1, '#005232');
+        } else if (currentPalette === 'amber') {
+          grad.addColorStop(0, '#2E1500');
+          grad.addColorStop(1, '#6A3A00');
+        } else {
+          // Violet
+          grad.addColorStop(0, '#1E1235');
+          grad.addColorStop(1, '#3B2363');
         }
-        renderPosterFooter(ctx, ev);
-        document.getElementById('poster-modal').classList.remove('hidden');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 1080, 1440);
+
+        // M3 Elevated Card Container (Round 48px)
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+        roundRect(ctx, 60, 60, 960, 1320, 48, true, false);
+
+        // Category Tag
+        ctx.fillStyle = '#D0BCFF';
+        ctx.font = 'bold 30px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`⏳ 时约 · ${ev.category}`, 110, 150);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.font = '24px "JetBrains Mono", monospace';
+        ctx.fillText(calc.badgeText, 760, 150);
+
+        // Divider
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(110, 180);
+        ctx.lineTo(970, 180);
+        ctx.stroke();
+
+        // Title
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 64px "Noto Sans SC", sans-serif';
+        ctx.fillText(ev.title, 110, 270);
+
+        // Giant Display Number
+        ctx.fillStyle = '#EADDFF';
+        ctx.font = '800 210px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(calc.absDays, 110, 490);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.font = '34px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`${calc.label} · ${calc.subLabel}`, 110, 560);
+        ctx.font = '26px "JetBrains Mono", monospace';
+        ctx.fillText(`目标日期: ${calc.targetDateStr} (${calc.displayLunarStr})`, 110, 610);
+
+        // Photo or Quotation
+        if (ev.photos && ev.photos.length > 0) {
+          const photoImg = new Image();
+          photoImg.onload = function() {
+            ctx.save();
+            roundRect(ctx, 110, 660, 860, 520, 32, false, false);
+            ctx.clip();
+            ctx.drawImage(photoImg, 110, 660, 860, 520);
+            ctx.restore();
+            renderM3PosterFooter(ctx, ev);
+          };
+          photoImg.src = ev.photos[0].dataUrl;
+        } else {
+          if (ev.notes) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.font = 'italic 34px "Noto Sans SC", sans-serif';
+            ctx.fillText(`“ ${ev.notes} ”`, 110, 780);
+          }
+          renderM3PosterFooter(ctx, ev);
+        }
+
+      } else {
+        // Swiss Minimalist Black & White
+        ctx.fillStyle = '#121212';
+        ctx.fillRect(0, 0, 1080, 1440);
+
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(50, 50, 980, 1340);
+
+        ctx.fillStyle = '#888888';
+        ctx.font = '24px "JetBrains Mono", monospace';
+        ctx.fillText('SHIYUE // TIMELINE ARCHIVE', 90, 120);
+        ctx.fillText(`INDEX // ${ev.category}`, 750, 120);
+
+        ctx.strokeStyle = '#333333';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(90, 150);
+        ctx.lineTo(990, 150);
+        ctx.stroke();
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 64px "Noto Sans SC", sans-serif';
+        ctx.fillText(ev.title, 90, 240);
+
+        ctx.font = '900 230px "JetBrains Mono", monospace';
+        ctx.fillText(calc.absDays, 90, 480);
+
+        ctx.font = 'bold 36px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#AAAAAA';
+        ctx.fillText(calc.label, 90, 545);
+        ctx.font = '26px "JetBrains Mono", monospace';
+        ctx.fillText(`${calc.subLabel} · ${calc.displayLunarStr}`, 90, 595);
+
+        if (ev.photos && ev.photos.length > 0) {
+          const photoImg = new Image();
+          photoImg.onload = function() {
+            ctx.drawImage(photoImg, 90, 640, 900, 540);
+            renderSwissPosterFooter(ctx);
+          };
+          photoImg.src = ev.photos[0].dataUrl;
+        } else {
+          if (ev.notes) {
+            ctx.fillStyle = '#CCCCCC';
+            ctx.font = '32px "Noto Sans SC", sans-serif';
+            ctx.fillText(`“ ${ev.notes} ”`, 90, 750);
+          }
+          renderSwissPosterFooter(ctx);
+        }
       }
     }
 
-    function renderPosterFooter(ctx, ev) {
-      // Bottom divider
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function renderM3PosterFooter(ctx, ev) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(110, 1260);
+      ctx.lineTo(970, 1260);
+      ctx.stroke();
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 32px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('时约 · CHRONO', 110, 1320);
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.font = '22px "Noto Sans SC", sans-serif';
+      ctx.fillText('守候每一个值得铭记的时刻', 640, 1320);
+    }
+
+    function renderSwissPosterFooter(ctx) {
       ctx.strokeStyle = '#333333';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(80, 1260);
-      ctx.lineTo(1000, 1260);
+      ctx.moveTo(90, 1260);
+      ctx.lineTo(990, 1260);
       ctx.stroke();
 
-      // Footer branding
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = 'bold 32px "Space Mono", monospace';
-      ctx.fillText('时约 // CHRONO', 80, 1320);
+      ctx.font = 'bold 32px "JetBrains Mono", monospace';
+      ctx.fillText('时约 // SWISS STYLE', 90, 1320);
 
       ctx.fillStyle = '#888888';
-      ctx.font = '22px "Space Mono", monospace';
+      ctx.font = '22px "Noto Sans SC", sans-serif';
       ctx.fillText('守候每一个值得铭记的时刻', 640, 1320);
     }
 
@@ -1692,10 +2213,10 @@
       const url = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = url;
-      a.download = `时约海报_${Date.now()}.png`;
+      a.download = `时约海报-${Date.now()}.png`;
       document.body.appendChild(a);
       a.click();
-      a.remove();
+      document.body.removeChild(a);
     }
 
     // ================= Category Manager =================
@@ -1711,13 +2232,11 @@
     function renderCategoryManageList() {
       const list = document.getElementById('category-manage-list');
       list.innerHTML = categories.map((cat, idx) => `
-        <div class="flex items-center justify-between p-2.5 border border-neutral-800 bg-neutral-900/50 text-xs font-mono-swiss">
-          <span>[${cat}]</span>
-          ${DEFAULT_CATEGORIES.includes(cat) ? `<span class="text-[10px] text-neutral-500">默认分类</span>` : `
-            <button onclick="deleteCustomCategory(${idx})" class="text-red-400 hover:text-red-300 text-[11px] underline">
-              删除
-            </button>
-          `}
+        <div class="flex items-center justify-between p-2.5 rounded-xl m3-surface-high border m3-border-outline text-xs">
+          <span class="font-bold">${cat}</span>
+          ${categories.length > 1 ? `
+            <button onclick="deleteCustomCategory(${idx})" class="text-red-500 hover:underline">删除</button>
+          ` : '<span class="text-gray-500 text-[10px]">保留项</span>'}
         </div>
       `).join('');
     }
@@ -1727,27 +2246,27 @@
       const val = input.value.trim();
       if (!val) return;
       if (categories.includes(val)) {
-        alert('分类已存在！');
+        alert('分类已存在');
         return;
       }
       categories.push(val);
-      input.value = '';
       saveToStorage();
+      input.value = '';
       renderCategoryManageList();
       renderTabs();
     }
 
     function deleteCustomCategory(idx) {
-      const cat = categories[idx];
-      if (confirm(`确认删除分类 [${cat}] 吗？`)) {
-        categories.splice(idx, 1);
-        saveToStorage();
-        renderCategoryManageList();
-        renderTabs();
-      }
+      const removed = categories.splice(idx, 1)[0];
+      events.forEach(e => {
+        if (e.category === removed) e.category = categories[0] || '纪念日';
+      });
+      saveToStorage();
+      renderCategoryManageList();
+      renderAll();
     }
 
-    // ================= Data Backup & Restore =================
+    // ================= Backup & Data =================
     function openBackupModal() {
       document.getElementById('backup-modal').classList.remove('hidden');
     }
@@ -1757,21 +2276,23 @@
     }
 
     function exportData() {
-      const exportPayload = {
-        app: 'ShiYue',
-        version: '2.0',
-        categories: categories,
-        events: events
+      const data = {
+        app: 'ShiYue Chrono',
+        version: '3.0-M3',
+        exportDate: new Date().toISOString(),
+        categories,
+        events
       };
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
-      const downloadAnchor = document.createElement('a');
-      const now = new Date();
-      const dateTag = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `时约_BACKUP_${dateTag}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+      const jsonStr = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `时约-数据备份-${formatDateStr(new Date())}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
 
     function importData(event) {
@@ -1780,48 +2301,40 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         try {
-          const imported = JSON.parse(e.target.result);
-          if (imported.events && Array.isArray(imported.events)) {
-            events = imported.events;
-            if (imported.categories && Array.isArray(imported.categories)) {
-              categories = imported.categories;
+          const parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed.events)) {
+            events = parsed.events;
+            if (Array.isArray(parsed.categories)) {
+              categories = parsed.categories;
             }
-          } else if (Array.isArray(imported)) {
-            events = imported;
+            saveToStorage();
+            renderAll();
+            closeBackupModal();
+            alert('数据恢复成功！');
+          } else {
+            alert('备份文件格式不正确');
           }
-          saveToStorage();
-          renderAll();
-          alert('数据恢复成功！');
-          closeBackupModal();
         } catch (err) {
-          alert('读取文件出错：' + err.message);
+          alert('解析备份失败：' + err.message);
         }
       };
       reader.readAsText(file);
+      event.target.value = '';
     }
 
     function resetDefaults() {
-      if (confirm('确定要清除当前数据并恢复为初始演示数据吗？建议先导出备份！')) {
+      if (confirm('确认恢复默认演示数据吗？当前本地记录将被替换。')) {
         localStorage.removeItem('SHIYUE_EVENTS_V2');
         localStorage.removeItem('SHIYUE_CATEGORIES');
-        location.reload();
+        categories = [...DEFAULT_CATEGORIES];
+        events = [];
+        initData();
+        closeBackupModal();
       }
     }
 
-    // Keyboard Shortcuts
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-        closeDetailModal();
-        closeCategoryModal();
-        closeBackupModal();
-        closePosterModal();
-        closeStickerModal();
-      }
-    });
-
-    // Start App
-    initData();
+    // Boot App
+    window.addEventListener('DOMContentLoaded', initData);
   </script>
 </body>
 </html>

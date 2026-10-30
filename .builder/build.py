@@ -1,5 +1,8 @@
-import os
 import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stdout, "reconfigure"): sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+import os
 import shutil
 import zipfile
 import subprocess
@@ -235,7 +238,7 @@ def build_apk(java_exe, aapt2_exe):
         print(f"[SUCCESS] APK copied to Desktop: {dest_apk}")
 
     print(f"\n=======================================================")
-    print(f"🎉 BUILD SUCCESSFUL!")
+    print("[SUCCESS] BUILD COMPLETED SUCCESSFULLY!")
     print(f"Final APK: {final_apk_path} ({os.path.getsize(final_apk_path) // 1024} KB)")
     print(f"=======================================================\n")
     return True
@@ -250,3 +253,4 @@ if __name__ == "__main__":
         print(f"\n[FATAL ERROR] {e}")
         traceback.print_exc()
         sys.exit(1)
+
